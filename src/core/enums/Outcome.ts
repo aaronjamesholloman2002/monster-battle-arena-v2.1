@@ -1,0 +1,10 @@
+export enum Outcome {
+
+	BATTLE_START,
+    BATTLE_END,
+    ITEM_APPEAR,
+    STAT_INCREASE,
+    STAT_DECREASE,
+    STATUS_EFFECT
+	
+}
