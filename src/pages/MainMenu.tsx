@@ -20,7 +20,7 @@ export function MainMenu({ changeScreen }: Props) {
 
             <button
                 className="w-64 py-4 bg-green-600 rounded-xl mb-4 hover:bg-green-500"
-                onClick={() => changeScreen(MenuState.MAIN_MENU)}
+                onClick={() => changeScreen(MenuState.NEW_GAME)}
             >
                 New Game
             </button>

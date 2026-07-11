@@ -8,6 +8,10 @@ export enum Creature {
 
     GHOST,
 
-    ELECTRICMON
+    ELECTRICMON,
+    
+    WOLF,
+
+    DRAGON
 
 }

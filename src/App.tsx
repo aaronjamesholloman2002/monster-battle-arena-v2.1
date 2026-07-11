@@ -12,6 +12,8 @@ export default function App() {
         throw new Error('Function not implemented.');
       }} />} />
 
+      <Route path=""></Route>
+
     </Routes>
   );
 }
