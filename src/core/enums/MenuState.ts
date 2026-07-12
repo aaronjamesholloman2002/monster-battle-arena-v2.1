@@ -1,19 +1,21 @@
 export enum MenuState {
 
-    MAIN_MENU,
+    TITLE_SCREEN,
+    
+    NEW_GAME = "New Game",
 
-    NEW_GAME,
+    CONTINUE = "Continue Game",
 
-    CONTINUE,
+    MAIN_MENU = "Main Menu",
 
-    TEAM,
+    TEAM = "Team View",
 
-    INVENTORY,
+    INVENTORY = "Inventory List",
 
-    ADVENTURE,
+    ADVENTURE = "Adventure Mode",
 
-    BATTLE,
+    BATTLE = "Battle Mode",
 
-    SETTINGS
+    SETTINGS = "Settings & Options"
 
 }
