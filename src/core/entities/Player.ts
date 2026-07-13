@@ -3,10 +3,10 @@ import type { Item } from "./Item";
 import type { Monster } from "./Monster";
 import type { Weapon } from "./Weapon";
 
-export interface Player {
-    id: number;
+export interface Player{
+    id: string;
     name: string;
-    gender: Gender;
+    gender?: Gender;
     hp: number;
     attack: number;
     defense: number;

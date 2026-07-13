@@ -4,21 +4,30 @@ import { Routes, Route } from "react-router-dom";
 import { MainMenu } from "./pages/MainMenu";
 import type { MenuState } from './core/enums/MenuState';
 import NewGame from './pages/NewGame';
+import { TitleScreen } from './pages/TitleScreen';
+import { AdventureScreen } from './pages/AdventureScreen';
+import { TeamView } from './pages/TeamView';
+import { InventorySearch } from './pages/InventorySearch';
+import { Settings } from './pages/Settings';
 
 
 export default function App() {
   const changeScreen = (menuState: MenuState) => {
 
-    alert(menuState);
+    alert("You are being sent to " + menuState + " Screen");
 
   };
 
   return (
     <Routes>
 
-      <Route path="/" element={<MainMenu changeScreen={changeScreen} />} />
-
+      <Route path="/" element={<TitleScreen changeScreen={changeScreen} />} />
       <Route path="/new-game" element={< NewGame />} />
+      <Route path="/main-menu" element={< MainMenu changeScreen={changeScreen} />} />
+      <Route path="/adventure-mode" element={<AdventureScreen />} />
+      <Route path="/team-view" element={< TeamView />} />
+      <Route path="/inventory-search" element={< InventorySearch />} />
+      <Route path="/settings" element={< Settings />} />
 
     </Routes>
   );

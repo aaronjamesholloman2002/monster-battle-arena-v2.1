@@ -2,6 +2,7 @@ import React from 'react';
 
 export interface CardProps {
   title: string;
+  content: string | number;
   subtitle?: string;              // Optional subtitle
   imageUrl?: string;              // Optional top image
   imageAlt?: string;              // Alt text for accessibility

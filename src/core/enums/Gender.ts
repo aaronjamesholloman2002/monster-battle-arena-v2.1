@@ -1,6 +1,6 @@
 export enum Gender {
 
-    MAIL,
+    MALE,
 
     FEMALE
 
