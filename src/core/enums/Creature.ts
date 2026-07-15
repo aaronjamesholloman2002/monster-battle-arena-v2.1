@@ -6,10 +6,14 @@ export enum Creature {
 
     PLANT,
 
+    CATERPILLAR,
+
+    RABBIT,
+    
+    PENGUIN,
+
     GHOST,
 
-    ELECTRICMON,
-    
     WOLF,
 
     DRAGON

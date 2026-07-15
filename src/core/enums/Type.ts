@@ -4,6 +4,9 @@ export enum Type {
 	WATER,
 	GRASS,
 	ELECTRIC,
+	BUG,
 	GHOST,
+	ICE,
+	FLYING,
 	NORMAL
 }

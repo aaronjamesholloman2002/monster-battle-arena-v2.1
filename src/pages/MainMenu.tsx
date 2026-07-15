@@ -12,7 +12,7 @@ interface Props {
 
 }
 
-const player: Player = {
+export const player: Player = {
     id: crypto.randomUUID(),
     name: "James",
     gender: null,
@@ -40,8 +40,10 @@ export function MainMenu({ changeScreen }: Props) {
 
             </h1>
 
+            <Card title="Player" children imageAlt="" content={""} isHoverable />
+
             <button
-                className="w-64 py-4 bg-green-600 rounded-xl mb-4 hover:bg-green-500 ui-hoverable"
+                className="w-64 py-4 m-4 bg-green-600 rounded-xl mb-4 hover:bg-green-500 ui-hoverable"
                 // onClick={() => changeScreen(MenuState.NEW_GAME)}
                 onClick={() => {
                     changeScreen(MenuState.ADVENTURE);
@@ -63,7 +65,7 @@ export function MainMenu({ changeScreen }: Props) {
             </button>
 
             <button
-                className="w-64 py-4 bg-purple-600 rounded-xl mb-4 hover:bg-purple-500 ui-hoverable"
+                className="w-64 py-4 bg-purple-600 rounded-xl mb-4 hover:bg-purple-500 ui-hoverable ease-linear"
                 onClick={() => {
                     changeScreen(MenuState.INVENTORY)
                     navigate("/inventory-search")
@@ -81,10 +83,6 @@ export function MainMenu({ changeScreen }: Props) {
             >
                 Settings
             </button>
-
-            <Card title="User" children imageAlt="" content={""} isHoverable />
-
-            player
 
         </div>
 

@@ -6,25 +6,9 @@ import { MenuState } from "../core/enums/MenuState";
 import type { Monster } from "../core/entities/Monster";
 import { Card } from "../components/Card";
 import { useNavigate } from "react-router-dom";
-
-// interface PlayerDraft {
-
-//     name: string;
-
-//     gender?: Gender;
-
-//     starter?: Monster;
-
-//     monsters?: Monster[];
-
-// }
-
-// const draft: PlayerDraft = {
-
-//     name: ""
-
-// };
-
+import { MonsterDatabase } from "../core/databases/MonsterDatabase";
+import { MonsterFactory } from "../core/managers/MonsterFactory";
+import { setPlayer as savePlayer } from "../store/GameStore";
 
 export default function NewGame() {
 
@@ -44,7 +28,6 @@ export default function NewGame() {
     });
 
     const [team, setTeam] = useState<Monster>();
-
 
     const [step, setStep] = useState(0);
 
@@ -66,8 +49,23 @@ export default function NewGame() {
 
     };
 
+    function chooseStarter(monsterID: string) {
+
+        const starter = MonsterFactory.create(monsterID);
+
+        const updatedPlayer = {
+            ...player,
+            team: [...player.team, starter],
+            monsterBox: [...player.monsterBox, starter],
+        };
+
+        setPlayer(updatedPlayer);
+
+        savePlayer(updatedPlayer);
+    }
+
     return (
-        <div className="min-h-screen bg-slate-900 flex flex-col justify-center items-center">
+        <div className="flex flex-col items-center justify-center min-h-screen bg-slate-900">
 
             {step === 0 && (
 
@@ -77,12 +75,12 @@ export default function NewGame() {
                     <input
                         value={inputValue}
                         onChange={(e) => setInputValue(e.target.value)}
-                        className="p-2 m-2"
+                        className="p-2 m-2 text-white"
                     />
 
                     <button
                         onClick={handleContinue}
-                        className="bg-blue-400 p-2 m-2 rounded-xl text-white">
+                        className="p-2 m-2 text-white bg-blue-400 rounded-xl">
 
                         Continue
                     </button>
@@ -134,24 +132,46 @@ export default function NewGame() {
             {step === 2 && (
 
                 <>
-                    <h1>Choose your Ally...</h1>
-
-                    <Card title={"Creature Card"} content={""} />
+                    <h1 className="text-white">Choose your Ally...</h1>
 
                     <button
+                        className="text-white"
                         onClick={() => {
-
-                            setPlayer(prev => ({
-                                ...prev,
-                                gender: Gender.FEMALE
-                            }));
-
-                            navigate("/main-menu")
-
+                            chooseStarter("flarant")
+                            navigate("/team-view")
                         }}
+
                     >
-                        🐜
+                        Flarant
                     </button>
+                    <button
+                        className="text-white"
+                        onClick={() => {
+                            chooseStarter("elegiphant")
+                            navigate("/team-view")
+                        }}
+
+                    >
+                        Elegiphant
+                    </button>
+                    <button
+                        className="text-white"
+                        onClick={() => {
+                            chooseStarter("plantrum")
+                            navigate("/team-view")
+                        }}
+
+                    >
+                        Plantrum
+                    </button>
+
+                    {player?.team.map(monster => (
+
+                        <p key={monster.id} className="text-white">
+                            {monster.name}
+                        </p>
+
+                    ))}
                 </>
 
             )}

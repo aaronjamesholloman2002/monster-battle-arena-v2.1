@@ -1,10 +1,11 @@
+import type { Key } from "react";
 import type { Gender } from "../enums/Gender";
 import type { Item } from "./Item";
 import type { Monster } from "./Monster";
 import type { Weapon } from "./Weapon";
 
 export interface Player{
-    id: string;
+    id: Key;
     name: string;
     gender?: Gender;
     hp: number;

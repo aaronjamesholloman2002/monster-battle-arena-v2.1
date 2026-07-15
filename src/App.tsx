@@ -10,8 +10,8 @@ import { TeamView } from './pages/TeamView';
 import { InventorySearch } from './pages/InventorySearch';
 import { Settings } from './pages/Settings';
 
-
 export default function App() {
+
   const changeScreen = (menuState: MenuState) => {
 
     alert("You are being sent to " + menuState + " Screen");
