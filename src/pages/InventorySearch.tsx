@@ -1,8 +1,14 @@
 import { useNavigate } from "react-router-dom";
+import { getPlayer } from "../store/GameStore";
 
 export function InventorySearch() {
 
     const navigate = useNavigate();
+    const player = getPlayer();
+
+    if (!player) {
+        navigate("/");
+    }
 
     return (
         <div className="min-h-screen bg-slate-900 flex flex-col justify-center items-center">

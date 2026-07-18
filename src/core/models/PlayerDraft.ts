@@ -8,5 +8,5 @@ export interface PlayerDraft {
     gender?: Gender;
   
     starter?: Monster;
-  
+    
   }

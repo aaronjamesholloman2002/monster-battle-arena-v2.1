@@ -1,12 +1,12 @@
 export enum Type {
 	
-    FIRE,
-	WATER,
-	GRASS,
-	ELECTRIC,
-	BUG,
-	GHOST,
-	ICE,
-	FLYING,
-	NORMAL
+    FIRE = "Fire",
+	WATER = "Water",
+	GRASS = "Grass",
+	ELECTRIC = "Electric",
+	BUG = "Bug",
+	GHOST = "Ghost",
+	ICE = "Ice",
+	FLYING = "Flying",
+	NORMAL = "Normal"
 }

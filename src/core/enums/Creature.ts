@@ -1,21 +1,21 @@
 export enum Creature {
 
-    ANT,
+    ANT = "Ant",
 
-    ELEPHANT,
+    ELEPHANT = "Elephant",
 
-    PLANT,
+    PLANT = "Plant",
 
-    CATERPILLAR,
+    CATERPILLAR = "Caterpillar",
 
-    RABBIT,
+    RABBIT = "Rabbit",
     
-    PENGUIN,
+    PENGUIN = "Penguin",
 
-    GHOST,
+    GHOST = "Ghost",
 
-    WOLF,
+    WOLF = "Wolf",
 
-    DRAGON
+    DRAGON = "Dragon"
 
 }

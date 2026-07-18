@@ -9,6 +9,8 @@ import { AdventureScreen } from './pages/AdventureScreen';
 import { TeamView } from './pages/TeamView';
 import { InventorySearch } from './pages/InventorySearch';
 import { Settings } from './pages/Settings';
+import SummonEvent from './pages/SummonEvents';
+import MonsterDetails from './pages/MonsterDetails';
 
 export default function App() {
 
@@ -26,7 +28,9 @@ export default function App() {
       <Route path="/main-menu" element={< MainMenu changeScreen={changeScreen} />} />
       <Route path="/adventure-mode" element={<AdventureScreen />} />
       <Route path="/team-view" element={< TeamView />} />
+      <Route path="/monster/:id" element={<MonsterDetails monsters={[]} />} />
       <Route path="/inventory-search" element={< InventorySearch />} />
+      <Route path="/summon-event" element={< SummonEvent />} />
       <Route path="/settings" element={< Settings />} />
 
     </Routes>

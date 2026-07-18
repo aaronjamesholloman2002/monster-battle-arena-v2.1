@@ -2,7 +2,7 @@ import type { Monster } from "../entities/Monster";
 import { Creature } from "../enums/Creature";
 import { Rarity } from "../enums/Rarity";
 import { Type } from "../enums/Type";
-import { revengeFurry } from "./PassiveSkillDatabase";
+import { regenBoost, revengeFurry } from "./PassiveSkillDatabase";
 
 export const MonsterDatabase = {
     
@@ -13,7 +13,7 @@ export const MonsterDatabase = {
         creature: Creature.ANT,
         type: Type.FIRE,
         hp: 60,
-        attack: 40,
+        attack: 70,
         defense: 55,
         speed: 70,
         passives: [revengeFurry]
@@ -24,11 +24,11 @@ export const MonsterDatabase = {
         name: "Elegiphant",
         creature: Creature.ELEPHANT,
         type: Type.WATER,
-        hp: 0,
-        attack: 0,
-        defense: 0,
-        speed: 0,
-        passives: []
+        hp: 120,
+        attack: 50,
+        defense: 80,
+        speed: 40,
+        passives: [regenBoost]
     },
 
     plantrum: {
@@ -36,10 +36,10 @@ export const MonsterDatabase = {
         name: "Plantrum",
         creature: Creature.PLANT,
         type: Type.GRASS,
-        hp: 0,
-        attack: 0,
-        defense: 0,
-        speed: 0,
+        hp: 100,
+        attack: 40,
+        defense: 30,
+        speed: 55,
         passives: []
     },
 
@@ -52,7 +52,7 @@ export const MonsterDatabase = {
         hp: 90,
         attack: 40,
         defense: 40,
-        speed: 60,
+        speed: 70,
         passives: [],
       },
 

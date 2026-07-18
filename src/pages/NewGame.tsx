@@ -138,7 +138,7 @@ export default function NewGame() {
                         className="text-white"
                         onClick={() => {
                             chooseStarter("flarant")
-                            navigate("/team-view")
+                            navigate("/main-menu")
                         }}
 
                     >
@@ -148,7 +148,7 @@ export default function NewGame() {
                         className="text-white"
                         onClick={() => {
                             chooseStarter("elegiphant")
-                            navigate("/team-view")
+                            navigate("/main-menu")
                         }}
 
                     >
@@ -158,7 +158,7 @@ export default function NewGame() {
                         className="text-white"
                         onClick={() => {
                             chooseStarter("plantrum")
-                            navigate("/team-view")
+                            navigate("/main-menu")
                         }}
 
                     >
