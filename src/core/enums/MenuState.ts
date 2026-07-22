@@ -14,6 +14,8 @@ export enum MenuState {
 
     ADVENTURE = "Adventure Mode",
 
+    SUMMON = "Summoning Event",
+
     BATTLE = "Battle Mode",
 
     SETTINGS = "Settings & Options"

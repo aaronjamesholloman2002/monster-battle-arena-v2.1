@@ -1,9 +1,9 @@
 export enum Rarity {
 
-	COMMON,
-    UNCOMMON,
-    RARE,
-    ULTRARARE,
-    LEGENDARY
+	COMMON = "COMMON",
+    UNCOMMON = "UNCOMMON",
+    RARE = "RARE",
+    ULTRARARE = "ULTRARARE",
+    LEGENDARY = "LEGENDARY"
 	
 }

@@ -56,7 +56,7 @@ export default function NewGame() {
         const updatedPlayer = {
             ...player,
             team: [...player.team, starter],
-            monsterBox: [...player.monsterBox, starter],
+            // monsterBox: [...player.monsterBox, starter],
         };
 
         setPlayer(updatedPlayer);
@@ -137,7 +137,7 @@ export default function NewGame() {
                     <button
                         className="text-white"
                         onClick={() => {
-                            chooseStarter("flarant")
+                            chooseStarter("0001")
                             navigate("/main-menu")
                         }}
 
@@ -147,7 +147,7 @@ export default function NewGame() {
                     <button
                         className="text-white"
                         onClick={() => {
-                            chooseStarter("elegiphant")
+                            chooseStarter("0002")
                             navigate("/main-menu")
                         }}
 
@@ -157,7 +157,7 @@ export default function NewGame() {
                     <button
                         className="text-white"
                         onClick={() => {
-                            chooseStarter("plantrum")
+                            chooseStarter("0003")
                             navigate("/main-menu")
                         }}
 

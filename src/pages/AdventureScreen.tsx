@@ -1,14 +1,23 @@
 import { useNavigate } from "react-router-dom";
 import { player } from "./MainMenu";
 import { getPlayer } from "../store/GameStore";
+import { useEffect } from "react";
 
 export function AdventureScreen() {
 
     const player = getPlayer();
     const navigate = useNavigate();
 
+    useEffect(() => {
+
+        if (!player) {
+            navigate("/");
+        }
+
+    }, [player, navigate]);
+
     if (!player) {
-        navigate("/");
+        return <p>Loading player...</p>;
     }
 
     return (

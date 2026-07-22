@@ -8,19 +8,23 @@ export const MonsterDatabase = {
     
     flarant: {
         id: "0001",
-        rarity: Rarity.RARE,
+        speciesID: "🐜",
+        rarity: Rarity.COMMON,
         name: "Flarant",
         creature: Creature.ANT,
         type: Type.FIRE,
+        // move: ,
         hp: 60,
         attack: 70,
         defense: 55,
-        speed: 70,
+        speed: 75,
         passives: [revengeFurry]
     },
 
     elegiphant: {
         id: "0002",
+        speciesID: "🐘",
+        rarity: Rarity.COMMON,
         name: "Elegiphant",
         creature: Creature.ELEPHANT,
         type: Type.WATER,
@@ -33,6 +37,8 @@ export const MonsterDatabase = {
 
     plantrum: {
         id: "0003",
+        speciesID: "🌿",
+        rarity: Rarity.COMMON,
         name: "Plantrum",
         creature: Creature.PLANT,
         type: Type.GRASS,
@@ -45,6 +51,7 @@ export const MonsterDatabase = {
 
     caterpule: {
         id: "0004",
+        speciesID: "🐛",
         rarity: Rarity.UNCOMMON,
         name: "Caterpule",
         creature: Creature.CATERPILLAR,
@@ -58,6 +65,7 @@ export const MonsterDatabase = {
 
       voltrab: {
         id: "0005",
+        speciesID: "⚡️",
         rarity: Rarity.RARE,
         name: "Voltrab",
         creature: Creature.RABBIT,
@@ -69,8 +77,9 @@ export const MonsterDatabase = {
         passives: [],
       },
 
-      Iglio: {
+      iglio: {
         id: "0006",
+        speciesID: "🐧",
         rarity: Rarity.RARE,
         name: "Iglio",
         creature: Creature.PENGUIN,
@@ -84,6 +93,7 @@ export const MonsterDatabase = {
 
       spectrium: {
         id: "0007",
+        speciesID: "👻",
         rarity: Rarity.ULTRARARE,
         name: "Iglio",
         creature: Creature.PENGUIN,
@@ -93,6 +103,36 @@ export const MonsterDatabase = {
         defense: 90,
         speed: 80,
         passives: [],
+      },
+
+      korigon: {
+        id: "0008",
+        speciesID: "🐲",
+        rarity: Rarity.ULTRARARE,
+        name: "Korigon",
+        creature: Creature.DRAGON,
+        type: Type.ICE,
+        hp: 180,
+        attack: 110,
+        defense: 150,
+        speed: 90,
+        passives: [],
+      },
+
+      infernados: {
+        id: "0009",
+        speciesID: "🐲",
+        rarity: Rarity.ULTRARARE,
+        name: "Infernados",
+        creature: Creature.DRAGON,
+        type: Type.FIRE,
+        hp: 150,
+        attack: 120,
+        defense: 100,
+        speed: 90,
+        passives: [],
       }
+
+      
 }
 

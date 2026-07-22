@@ -43,14 +43,23 @@ export function MainMenu({ changeScreen }: Props) {
             <Card title="Player" children imageAlt="" content={""} isHoverable />
 
             <button
-                className="w-64 py-4 m-4 bg-green-600 rounded-xl mb-4 hover:bg-green-500 ui-hoverable"
-                // onClick={() => changeScreen(MenuState.NEW_GAME)}
+                className="w-64 py-4 m-4 bg-orange-600 rounded-xl mb-4 hover:bg-orange-500 ui-hoverable"
                 onClick={() => {
                     changeScreen(MenuState.ADVENTURE);
                     navigate("/adventure-mode");
                 }}
             >
                 Adventrue Mode
+            </button>
+
+            <button
+                className="w-64 py-4 bg-green-600 rounded-xl mb-4 hover:bg-green-500 ui-hoverable"
+                onClick={() => {
+                    changeScreen(MenuState.SUMMON);
+                    navigate("/summon-event");
+                }}
+            >
+                Summon Event
             </button>
 
             <button
@@ -75,7 +84,7 @@ export function MainMenu({ changeScreen }: Props) {
             </button>
 
             <button
-                className="w-64 py-4 bg-gray-600 rounded-xl mb-4 hover:bg-gray-500 ui-hoverable"
+                className="w-64 py-4 bg-gray-600 rounded-xl mb-4 hover:bg-gray-500 ui-hoverable items-center justify-center"
                 onClick={() => {
                     changeScreen(MenuState.SETTINGS)
                     navigate("/settings")

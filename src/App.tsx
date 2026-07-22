@@ -28,7 +28,7 @@ export default function App() {
       <Route path="/main-menu" element={< MainMenu changeScreen={changeScreen} />} />
       <Route path="/adventure-mode" element={<AdventureScreen />} />
       <Route path="/team-view" element={< TeamView />} />
-      <Route path="/monster/:id" element={<MonsterDetails monsters={[]} />} />
+      <Route path="/monster/:id" element={<MonsterDetails />} />
       <Route path="/inventory-search" element={< InventorySearch />} />
       <Route path="/summon-event" element={< SummonEvent />} />
       <Route path="/settings" element={< Settings />} />
