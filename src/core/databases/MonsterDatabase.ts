@@ -4,10 +4,52 @@ import { Rarity } from "../enums/Rarity";
 import { Type } from "../enums/Type";
 import { regenBoost, revengeFurry } from "./PassiveSkillDatabase";
 
-export const MonsterDatabase = {
+export const MonsterDatabase: Record<string, Monster> = {
     
-    flarant: {
+    "0001": {
         id: "0001",
+        speciesID: "🐒",
+        rarity: Rarity.RARE,
+        name: "Rimeape",
+        creature: Creature.MONKEY,
+        type: Type.ICE,
+        // move: ,
+        hp: 60,
+        attack: 70,
+        defense: 55,
+        speed: 75,
+        passives: [revengeFurry]
+    },
+    "0002": {
+        id: "0002",
+        speciesID: "🐼",
+        rarity: Rarity.RARE,
+        name: "Bambeast",
+        creature: Creature.PANDA,
+        type: Type.GRASS,
+        // move: ,
+        hp: 60,
+        attack: 70,
+        defense: 55,
+        speed: 75,
+        passives: []
+    },
+    "0003": {
+        id: "0003",
+        speciesID: "🕊️",
+        rarity: Rarity.RARE,
+        name: "Whifdraft",
+        creature: Creature.BIRD,
+        type: Type.FLYING,
+        // move: ,
+        hp: 60,
+        attack: 70,
+        defense: 55,
+        speed: 75,
+        passives: []
+    },
+    "0004": {
+        id: "0004",
         speciesID: "🐜",
         rarity: Rarity.COMMON,
         name: "Flarant",
@@ -21,8 +63,8 @@ export const MonsterDatabase = {
         passives: [revengeFurry]
     },
 
-    elegiphant: {
-        id: "0002",
+    "0005": {
+        id: "0005",
         speciesID: "🐘",
         rarity: Rarity.COMMON,
         name: "Elegiphant",
@@ -35,8 +77,8 @@ export const MonsterDatabase = {
         passives: [regenBoost]
     },
 
-    plantrum: {
-        id: "0003",
+    "0006": {
+        id: "0006",
         speciesID: "🌿",
         rarity: Rarity.COMMON,
         name: "Plantrum",
@@ -49,8 +91,8 @@ export const MonsterDatabase = {
         passives: []
     },
 
-    caterpule: {
-        id: "0004",
+    "0007": {
+        id: "0007",
         speciesID: "🐛",
         rarity: Rarity.UNCOMMON,
         name: "Caterpule",
@@ -63,8 +105,8 @@ export const MonsterDatabase = {
         passives: [],
       },
 
-      voltrab: {
-        id: "0005",
+      "0008": {
+        id: "0008",
         speciesID: "⚡️",
         rarity: Rarity.RARE,
         name: "Voltrab",
@@ -77,8 +119,8 @@ export const MonsterDatabase = {
         passives: [],
       },
 
-      iglio: {
-        id: "0006",
+      "0009": {
+        id: "0009",
         speciesID: "🐧",
         rarity: Rarity.RARE,
         name: "Iglio",
@@ -91,13 +133,13 @@ export const MonsterDatabase = {
         passives: [],
       },
 
-      spectrium: {
-        id: "0007",
+      "0010": {
+        id: "0010",
         speciesID: "👻",
         rarity: Rarity.ULTRARARE,
-        name: "Iglio",
-        creature: Creature.PENGUIN,
-        type: Type.ICE,
+        name: "Spectrium",
+        creature: Creature.GHOST,
+        type: Type.GHOST,
         hp: 100,
         attack: 45,
         defense: 90,
@@ -105,10 +147,10 @@ export const MonsterDatabase = {
         passives: [],
       },
 
-      korigon: {
-        id: "0008",
+      "0011": {
+        id: "0011",
         speciesID: "🐲",
-        rarity: Rarity.ULTRARARE,
+        rarity: Rarity.LEGENDARY,
         name: "Korigon",
         creature: Creature.DRAGON,
         type: Type.ICE,
@@ -119,10 +161,10 @@ export const MonsterDatabase = {
         passives: [],
       },
 
-      infernados: {
-        id: "0009",
+      "0012": {
+        id: "0012",
         speciesID: "🐲",
-        rarity: Rarity.ULTRARARE,
+        rarity: Rarity.LEGENDARY,
         name: "Infernados",
         creature: Creature.DRAGON,
         type: Type.FIRE,

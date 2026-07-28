@@ -4,6 +4,8 @@ import type { Player } from "../core/entities/Player";
 import { getPlayer, setPlayer } from "../store/GameStore";
 import { summonMonster } from "../systems/GachaSystem";
 import { useEffect, useState } from "react";
+import type { SummonBanner } from "../core/entities/SummonBanner";
+import { DualDragonFestival, StarterBanner } from "../core/databases/BannerDatabase";
 
 export interface SummoningPlayer {
 
@@ -19,6 +21,8 @@ export default function SummonEvent() {
     const navigate = useNavigate();
     const player = getPlayer();
     const [summonedMonster, setSummonedMonster] = useState<Monster | null>(null);
+    const [starterBanner, setStarterBanner] = useState<SummonBanner>(StarterBanner);
+    const [festivalBanner, setFestivalBanner] = useState<SummonBanner>(DualDragonFestival);
 
     useEffect(() => {
 
@@ -34,7 +38,7 @@ export default function SummonEvent() {
 
     const handleSummon = () => {
 
-        const monster = summonMonster();
+        const monster = summonMonster(starterBanner);
 
         const updatedPlayer = addMonsterToBox(
             player,
@@ -53,7 +57,7 @@ export default function SummonEvent() {
         <h1 className="text-5xl text-white">Summoning Event</h1>
 
         <h1 className="p-2 m-2 text-3xl text-white">Summoning Banner</h1>
-        <div className="text-6xl"> 🐜 🐘 🌿</div>
+        <div className="text-6xl"> {starterBanner.speciesIDs} </div>
 
         {summonedMonster && (
 

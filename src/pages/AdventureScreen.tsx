@@ -1,12 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import { player } from "./MainMenu";
 import { getPlayer } from "../store/GameStore";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export function AdventureScreen() {
 
     const player = getPlayer();
     const navigate = useNavigate();
+    const [isDisabled, setIsDisabled] = useState<boolean>(true);
 
     useEffect(() => {
 
@@ -27,7 +28,7 @@ export function AdventureScreen() {
             <span>
                 <button
                     className="p-2 m-2 bg-blue-600"
-                    onClick={() => alert("Search was clicked")}
+                    onClick={() => { alert("Search was clicked") }}
                 >
 
                     Search
@@ -41,8 +42,9 @@ export function AdventureScreen() {
                 </button>
 
                 <button
-                    className="p-2 m-2 bg-amber-600"
-                    onClick={() => alert("Battle was clicked")}
+                    disabled={isDisabled}
+                    className={`p-2 m-2 bg-amber-600 ${isDisabled ? " " : " bg-amber-900"}`}
+                    onClick={() => { alert("Battle was clicked"), navigate("/battle-event") }}
                 >
                     Battle
                 </button>

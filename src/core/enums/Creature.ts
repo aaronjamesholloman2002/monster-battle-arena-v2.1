@@ -1,5 +1,11 @@
 export enum Creature {
 
+    MONKEY = "Monkey",
+
+    PANDA = "Panda",
+
+    BIRD = "Bird",
+    
     ANT = "Ant",
 
     ELEPHANT = "Elephant",

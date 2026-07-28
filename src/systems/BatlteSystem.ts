@@ -7,13 +7,6 @@ interface enemyBattler{
 
 }
 
-
-
-function takeDamage(attacker: Monster, enemy: Monster){
-
-
-}
-
 export class BattleSystem {
     static executeMove(attacker: Monster, defender: Monster, move: Move) {
         

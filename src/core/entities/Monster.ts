@@ -6,7 +6,7 @@ import type { Rarity } from "../enums/Rarity";
 import type { Move } from "./Move";
 
 export interface Monster {
-    id: Key;
+    id: string;
     speciesID: string;
     rarity: Rarity;
     name: string;

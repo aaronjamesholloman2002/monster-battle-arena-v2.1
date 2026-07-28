@@ -10,6 +10,9 @@ export function TeamView() {
     const navigate = useNavigate();
     const [selectedMonster, setSelectedMonster] = useState<Monster | null>(null);
 
+    /* Navigates Back to the Home Page if player is null 
+        or if there is no player being passed through
+    */
     useEffect(() => {
 
         if (!player) {

@@ -1,23 +1,33 @@
 import { MonsterDatabase } from "../core/databases/MonsterDatabase";
 import type { Monster } from "../core/entities/Monster";
+import type { SummonBanner } from "../core/entities/SummonBanner";
 import { Rarity } from "../core/enums/Rarity";
 import { MonsterFactory } from "../core/managers/MonsterFactory";
 
-export function summonMonster(): Monster {
-    const roll = Math.random();
+export function summonMonster(
+    banner: SummonBanner
+): Monster {
 
-    if (roll < 0.05) {
-        return getMonsterByRarity(Rarity.LEGENDARY);
-    } else if(roll < 0.25){
-        return getMonsterByRarity(Rarity.ULTRARARE);
-    } else if(roll < 0.50){
-        return getMonsterByRarity(Rarity.RARE);
-    }else if (roll < 0.75){
-        return getMonsterByRarity(Rarity.UNCOMMON);
-    }else{
-        return getMonsterByRarity(Rarity.COMMON);
+    const availableMonsters = banner.monsterIDs
+        .map(id => MonsterDatabase[id])
+        .filter(Boolean);
+
+    if (availableMonsters.length === 0) {
+        throw new Error(
+            `Banner "${banner.name}" has no available monsters.`
+        );
     }
 
+    const randomIndex = Math.floor(
+        Math.random() * availableMonsters.length
+    );
+
+    const selectedMonster =
+        availableMonsters[randomIndex];
+
+    return MonsterFactory.create(
+        selectedMonster.id
+    );
 }
 
 function getMonsterByRarity(rarity: Rarity): Monster {

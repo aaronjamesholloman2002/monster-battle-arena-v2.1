@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import '../App.css';
 import type { Player } from "../core/entities/Player";
 import { Gender } from "../core/enums/Gender";
@@ -27,11 +27,15 @@ export default function NewGame() {
         items: [],
     });
 
-    const [team, setTeam] = useState<Monster>();
+    // const [team, setTeam] = useState<Monster>();
 
     const [step, setStep] = useState(0);
 
     const navigate = useNavigate();
+
+    // const buttonRef = useRef<HTMLButtonElement | null>(null);
+
+    // const button = buttonRef.current;
 
     // 4. Handle form submission to update the player's name
     const handleContinue = () => {
@@ -64,6 +68,25 @@ export default function NewGame() {
         savePlayer(updatedPlayer);
     }
 
+    // useEffect(() => {
+    //     const button = buttonRef.current;
+    //     if (!button) return;
+
+    //     button.addEventListener('click', handleContinue);
+
+    //     button.addEventListener("keydown", (event: KeyboardEvent): void => {
+    //         if (event.key === "Enter") {
+    //             event.preventDefault();
+
+    //             handleContinue();
+    //         }
+    //     })
+
+    //     return () => {
+    //         button.removeEventListener('click', handleContinue);
+    //     };
+    // });
+
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-slate-900">
 
@@ -75,10 +98,13 @@ export default function NewGame() {
                     <input
                         value={inputValue}
                         onChange={(e) => setInputValue(e.target.value)}
+                        onKeyDown={(e) => { if (e.key === "Enter") { handleContinue(); } }}
                         className="p-2 m-2 text-white"
                     />
 
                     <button
+                        id="continueButton"
+                        type="submit"
                         onClick={handleContinue}
                         className="p-2 m-2 text-white bg-blue-400 rounded-xl">
 
@@ -134,6 +160,8 @@ export default function NewGame() {
                 <>
                     <h1 className="text-white">Choose your Ally...</h1>
 
+                    <br />
+
                     <button
                         className="text-white"
                         onClick={() => {
@@ -142,7 +170,7 @@ export default function NewGame() {
                         }}
 
                     >
-                        Flarant
+                        Rimeape
                     </button>
                     <button
                         className="text-white"
@@ -150,9 +178,8 @@ export default function NewGame() {
                             chooseStarter("0002")
                             navigate("/main-menu")
                         }}
-
                     >
-                        Elegiphant
+                        Bambeast
                     </button>
                     <button
                         className="text-white"
@@ -162,7 +189,7 @@ export default function NewGame() {
                         }}
 
                     >
-                        Plantrum
+                        Whifdraft
                     </button>
 
                     {player?.team.map(monster => (
