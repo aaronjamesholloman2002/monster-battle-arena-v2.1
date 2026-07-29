@@ -2,6 +2,8 @@ import type { Player } from "../entities/Player";
 
 import type { PlayerDraft } from "../models/PlayerDraft";
 
+import { v4 as uuidv4 } from 'uuid';
+
 export class PlayerFactory{
 
     static create(
@@ -12,7 +14,7 @@ export class PlayerFactory{
 
         return{
 
-            id: crypto.randomUUID(),
+            id: uuidv4(),
 
             name: draft.name,
 

@@ -1,7 +1,7 @@
-import { Rarity } from "../enums/Rarity";
 import type { SummonBanner } from "../entities/SummonBanner";
+import { Rarity } from "../enums/Rarity";
 
-    export const StarterBanner = {
+    export const StarterBanner: SummonBanner = {
 
         id: "starter-banner",
 
@@ -25,16 +25,28 @@ import type { SummonBanner } from "../entities/SummonBanner";
 
     }
 
-    export const LaunchFestival = {
+    export const LaunchFestival: SummonBanner = {
 
         id: "launch-festival",
 
         name: "Launch Festival",
 
         monsterIDs: [
-            // "0001",
-            // "0004",
-            // "0007"
+            "0004",
+            "0005",
+            "0006",
+            "0007",
+            "0008",
+            "0009",
+            "0010"
+        ],
+
+        speciesIDs: [
+            " 🐜 ",
+            " 🐘 ",
+            " 🌿 ",
+            " 🐧 ",
+            " 👻 "
         ],
 
         rates: {
@@ -47,7 +59,7 @@ import type { SummonBanner } from "../entities/SummonBanner";
 
     }
 
-    export const DualDragonFestival = {
+    export const DualDragonFestival: SummonBanner = {
 
         id: "dual-dragon-festival",
 
@@ -77,7 +89,7 @@ import type { SummonBanner } from "../entities/SummonBanner";
 
     }
 
-    export const DragonClawFestival = {
+    export const DragonClawFestival: SummonBanner = {
 
         id: "dragon-claw-festival",
 
@@ -87,6 +99,12 @@ import type { SummonBanner } from "../entities/SummonBanner";
             // "0001",
             // "0004",
             // "0007"
+        ],
+
+        speciesIDs: [
+            " 🐒 ",
+            " 🐼 ",
+            " 🕊️ "
         ],
 
         rates: {
@@ -100,7 +118,7 @@ import type { SummonBanner } from "../entities/SummonBanner";
 
     }
 
-    export const LegendaryFestival =  {
+    export const LegendaryFestival: SummonBanner =  {
 
         id: "legendary-festival",
 
@@ -108,6 +126,12 @@ import type { SummonBanner } from "../entities/SummonBanner";
 
         monsterIDs: [
 
+        ],
+
+        speciesIDs: [
+            " 🐒 ",
+            " 🐼 ",
+            " 🕊️ "
         ],
 
         rates: {

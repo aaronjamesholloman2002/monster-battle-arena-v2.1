@@ -5,7 +5,7 @@ import { getPlayer, setPlayer } from "../store/GameStore";
 import { summonMonster } from "../systems/GachaSystem";
 import { useEffect, useState } from "react";
 import type { SummonBanner } from "../core/entities/SummonBanner";
-import { DualDragonFestival, StarterBanner } from "../core/databases/BannerDatabase";
+import { DualDragonFestival, LaunchFestival, StarterBanner } from "../core/databases/BannerDatabase";
 
 export interface SummoningPlayer {
 
@@ -21,7 +21,7 @@ export default function SummonEvent() {
     const navigate = useNavigate();
     const player = getPlayer();
     const [summonedMonster, setSummonedMonster] = useState<Monster | null>(null);
-    const [starterBanner, setStarterBanner] = useState<SummonBanner>(StarterBanner);
+    const [starterBanner, setStarterBanner] = useState<SummonBanner>(LaunchFestival);
     const [festivalBanner, setFestivalBanner] = useState<SummonBanner>(DualDragonFestival);
 
     useEffect(() => {

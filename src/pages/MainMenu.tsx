@@ -5,6 +5,7 @@ import { MenuState } from "../core/enums/MenuState";
 import type { Player } from "../core/entities/Player";
 import { Gender } from "../core/enums/Gender";
 import type { Monster } from "../core/entities/Monster";
+import { v4 as uuidv4 } from 'uuid'
 
 interface Props {
 
@@ -13,7 +14,7 @@ interface Props {
 }
 
 export const player: Player = {
-    id: crypto.randomUUID(),
+    id: uuidv4(),
     name: "James",
     gender: null,
     hp: 100,

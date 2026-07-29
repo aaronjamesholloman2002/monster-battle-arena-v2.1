@@ -1,5 +1,6 @@
 import type { Monster } from "../entities/Monster";
 import { MonsterDatabase } from "../databases/MonsterDatabase";
+import { v4 as uuidv4 } from 'uuid';
 
 export class MonsterFactory {
 
@@ -16,7 +17,7 @@ export class MonsterFactory {
             ...template,
 
             // Create a unique instance ID
-            id: crypto.randomUUID(),
+            id: uuidv4(),
         };
     }
 

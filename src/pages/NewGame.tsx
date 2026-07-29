@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { MonsterDatabase } from "../core/databases/MonsterDatabase";
 import { MonsterFactory } from "../core/managers/MonsterFactory";
 import { setPlayer as savePlayer } from "../store/GameStore";
+import { MonsterCard } from "../components/MonsterCard";
 
 export default function NewGame() {
 
@@ -95,6 +96,8 @@ export default function NewGame() {
                 <>
                     <h1 className="text-4xl font-black text-white">Enter your name</h1>
 
+                    <br />
+
                     <input
                         value={inputValue}
                         onChange={(e) => setInputValue(e.target.value)}
@@ -118,6 +121,8 @@ export default function NewGame() {
 
                 <>
                     <h1 className="text-white">Select your gender {player.name}</h1>
+
+                    <br />
 
                     <button
                         onClick={() => {
@@ -162,35 +167,38 @@ export default function NewGame() {
 
                     <br />
 
-                    <button
-                        className="text-white"
-                        onClick={() => {
-                            chooseStarter("0001")
-                            navigate("/main-menu")
-                        }}
 
-                    >
-                        Rimeape
-                    </button>
-                    <button
-                        className="text-white"
-                        onClick={() => {
-                            chooseStarter("0002")
-                            navigate("/main-menu")
-                        }}
-                    >
-                        Bambeast
-                    </button>
-                    <button
-                        className="text-white"
-                        onClick={() => {
-                            chooseStarter("0003")
-                            navigate("/main-menu")
-                        }}
+                    <span className="space-x-1">
+                        <button
+                            className="text-white"
+                            onClick={() => {
+                                chooseStarter("0001")
+                                navigate("/main-menu")
+                            }}
 
-                    >
-                        Whifdraft
-                    </button>
+                        >
+                            Rimeape
+                        </button>
+                        <button
+                            className="text-white"
+                            onClick={() => {
+                                chooseStarter("0002")
+                                navigate("/main-menu")
+                            }}
+                        >
+                            Bambeast
+                        </button>
+                        <button
+                            className="text-white"
+                            onClick={() => {
+                                chooseStarter("0003")
+                                navigate("/main-menu")
+                            }}
+
+                        >
+                            Whifdraft
+                        </button>
+                    </span>
 
                     {player?.team.map(monster => (
 

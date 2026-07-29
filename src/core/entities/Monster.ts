@@ -17,5 +17,8 @@ export interface Monster {
     attack: number;
     defense: number;
     speed: number;
+    accuracy: number;
+    evasion: number;
+    moveset: Move[];
     passives: PassiveSkill[];
   }

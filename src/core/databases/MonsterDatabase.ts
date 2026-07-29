@@ -2,6 +2,7 @@ import type { Monster } from "../entities/Monster";
 import { Creature } from "../enums/Creature";
 import { Rarity } from "../enums/Rarity";
 import { Type } from "../enums/Type";
+import { frostPunch, vineSlap } from "./MovesDatabase";
 import { regenBoost, revengeFurry } from "./PassiveSkillDatabase";
 
 export const MonsterDatabase: Record<string, Monster> = {
@@ -14,10 +15,13 @@ export const MonsterDatabase: Record<string, Monster> = {
         creature: Creature.MONKEY,
         type: Type.ICE,
         // move: ,
-        hp: 60,
-        attack: 70,
-        defense: 55,
-        speed: 75,
+        hp: 100,
+        attack: 80,
+        defense: 45,
+        speed: 90,
+        accuracy: 0,
+        evasion: 0,
+        moveset: [frostPunch],
         passives: [revengeFurry]
     },
     "0002": {
@@ -28,10 +32,13 @@ export const MonsterDatabase: Record<string, Monster> = {
         creature: Creature.PANDA,
         type: Type.GRASS,
         // move: ,
-        hp: 60,
+        hp: 120,
         attack: 70,
-        defense: 55,
-        speed: 75,
+        defense: 608,
+        speed: 55,
+        accuracy: 0,
+        evasion: 0,
+        moveset: null,
         passives: []
     },
     "0003": {
@@ -42,10 +49,13 @@ export const MonsterDatabase: Record<string, Monster> = {
         creature: Creature.BIRD,
         type: Type.FLYING,
         // move: ,
-        hp: 60,
+        hp: 90,
         attack: 70,
         defense: 55,
         speed: 75,
+        accuracy: 0,
+        evasion: 0,
+        moveset: null,
         passives: []
     },
     "0004": {
@@ -60,6 +70,9 @@ export const MonsterDatabase: Record<string, Monster> = {
         attack: 70,
         defense: 55,
         speed: 75,
+        accuracy: 0,
+        evasion: 0,
+        moveset: [frostPunch],
         passives: [revengeFurry]
     },
 
@@ -74,6 +87,9 @@ export const MonsterDatabase: Record<string, Monster> = {
         attack: 50,
         defense: 80,
         speed: 40,
+        accuracy: 0,
+        evasion: 0,
+        moveset: null,
         passives: [regenBoost]
     },
 
@@ -88,6 +104,9 @@ export const MonsterDatabase: Record<string, Monster> = {
         attack: 40,
         defense: 30,
         speed: 55,
+        accuracy: 0,
+        evasion: 0,
+        moveset: null,
         passives: []
     },
 
@@ -102,6 +121,9 @@ export const MonsterDatabase: Record<string, Monster> = {
         attack: 40,
         defense: 40,
         speed: 70,
+        accuracy: 0,
+        evasion: 0,
+        moveset: null,
         passives: [],
       },
 
@@ -116,6 +138,9 @@ export const MonsterDatabase: Record<string, Monster> = {
         attack: 65,
         defense: 50,
         speed: 90,
+        accuracy: 0,
+        evasion: 0,
+        moveset: null,
         passives: [],
       },
 
@@ -130,6 +155,9 @@ export const MonsterDatabase: Record<string, Monster> = {
         attack: 45,
         defense: 100,
         speed: 60,
+        accuracy: 0,
+        evasion: 0,
+        moveset: null,
         passives: [],
       },
 
@@ -144,6 +172,9 @@ export const MonsterDatabase: Record<string, Monster> = {
         attack: 45,
         defense: 90,
         speed: 80,
+        accuracy: 0,
+        evasion: 0,
+        moveset: null,
         passives: [],
       },
 
@@ -158,6 +189,9 @@ export const MonsterDatabase: Record<string, Monster> = {
         attack: 110,
         defense: 150,
         speed: 90,
+        accuracy: 0,
+        evasion: 0,
+        moveset: null,
         passives: [],
       },
 
@@ -172,6 +206,9 @@ export const MonsterDatabase: Record<string, Monster> = {
         attack: 120,
         defense: 100,
         speed: 90,
+        accuracy: 0,
+        evasion: 0,
+        moveset: null,
         passives: [],
       }
 

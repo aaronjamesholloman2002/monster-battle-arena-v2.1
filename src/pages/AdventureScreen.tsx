@@ -2,12 +2,13 @@ import { useNavigate } from "react-router-dom";
 import { player } from "./MainMenu";
 import { getPlayer } from "../store/GameStore";
 import { useEffect, useState } from "react";
+import { MonsterDatabase } from "../core/databases/MonsterDatabase";
 
 export function AdventureScreen() {
 
     const player = getPlayer();
     const navigate = useNavigate();
-    const [isDisabled, setIsDisabled] = useState<boolean>(true);
+    const [isDisabled] = useState<boolean>(false);
 
     useEffect(() => {
 
@@ -27,7 +28,7 @@ export function AdventureScreen() {
 
             <span>
                 <button
-                    className="p-2 m-2 bg-blue-600"
+                    className="p-2 m-2 rounded-l-2xl bg-blue-500 hover:bg-blue-300 border-white border-4"
                     onClick={() => { alert("Search was clicked") }}
                 >
 
@@ -35,7 +36,7 @@ export function AdventureScreen() {
 
                 </button>
                 <button
-                    className="p-2 m-2 bg-lime-300"
+                    className={`p-2 m-2 bg-lime-400 hover:bg-lime-200 border-white border-4`}
                     onClick={() => alert("Heal was clicked")}
                 >
                     Heal Team
@@ -43,7 +44,7 @@ export function AdventureScreen() {
 
                 <button
                     disabled={isDisabled}
-                    className={`p-2 m-2 bg-amber-600 ${isDisabled ? " " : " bg-amber-900"}`}
+                    className={`p-2 m-2 rounded-r-2xl border-white border-4 ${isDisabled ? "bg-amber-900 hover:bg-amber-950" : "bg-amber-400 hover:bg-amber-200"}`}
                     onClick={() => { alert("Battle was clicked"), navigate("/battle-event") }}
                 >
                     Battle
