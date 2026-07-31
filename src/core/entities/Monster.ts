@@ -12,13 +12,12 @@ export interface Monster {
     name: string;
     creature: Creature;
     type: Type;
-    // move: Move[];
     hp: number;
     attack: number;
     defense: number;
     speed: number;
     accuracy: number;
     evasion: number;
-    moveset: Move[];
+    move: Move;
     passives: PassiveSkill[];
   }

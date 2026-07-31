@@ -12,7 +12,7 @@ import type { StatusEffect } from "../core/enums/StatusEffect";
 import { MonsterDatabase } from "../core/databases/MonsterDatabase";
 import { Rarity } from "../core/enums/Rarity";
 import { BattleSystem } from "../systems/BatlteSystem";
-import { frostPunch } from "../core/databases/MovesDatabase";
+import { flamethrower, frostPunch } from "../core/databases/MovesDatabase";
 import { MonsterFactory } from "../core/managers/MonsterFactory";
 
 const combatant: Monster = {
@@ -29,7 +29,7 @@ const combatant: Monster = {
     rarity: Rarity.COMMON,
     accuracy: 0,
     evasion: 0,
-    moveset: []
+    move: null,
 }
 
 const enemy: Monster = {
@@ -46,7 +46,7 @@ const enemy: Monster = {
     rarity: Rarity.COMMON,
     accuracy: 0,
     evasion: 0,
-    moveset: []
+    move: flamethrower,
 }
 
 // function selectMonster() {
@@ -67,14 +67,14 @@ export default function BattleEvent({ }) {
     //     setSlot1();
     // }
 
-    useEffect(() => {
-        if (!player) { navigate("/") }
+    // useEffect(() => {
+    //     if (!player) { navigate("/") }
 
-    }, [player, navigate])
+    // }, [player, navigate])
 
-    if (player.team.length === 2) {
-        return;
-    }
+    // if (player.team.length === 2) {
+    //     return;
+    // }
 
     // function spawnEnemy(): Monster{
     //     return MonsterFactory.create(
@@ -91,10 +91,17 @@ export default function BattleEvent({ }) {
     // }
 
     useEffect(() => {
-        console.log(`Greetings!! ${combatant.name}`);
-        console.log(`Damage: ${BattleSystem.dealDamage(combatant, enemy, frostPunch)}`);
-        console.log(`Enemy HP: ${enemy.hp = Math.max(0, enemy.hp - BattleSystem.dealDamage(combatant, enemy, frostPunch))}`);
-    }, [])
+
+        if (!player) {
+            navigate("/");
+        }
+
+        console.log(`Greetings!! ${player.name}`);
+        console.log(`${player.team[0].name} Max HP: ${player.team[0].hp}`);
+        console.log(`Move: ${enemy.move.name},  Damage: ${BattleSystem.calculateDamage(enemy, player.team[0], enemy.move)}`);
+        console.log(`${player.team[0].name}'s HP: ${BattleSystem.getCurrHP(enemy, player.team[0], enemy.move)}`);
+
+    }, [player, navigate])
 
 
 

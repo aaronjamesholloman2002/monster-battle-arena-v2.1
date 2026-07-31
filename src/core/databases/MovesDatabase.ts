@@ -35,7 +35,7 @@ import { Type } from "../enums/Type";
 
 export const frostPunch: Move = {
     id: "001",
-    name: "Ice Punch",
+    name: "Frost Punch",
     type: Type.ICE,
     moveCategory: MoveCategory.BASIC,
     animationKey: "",
@@ -49,7 +49,7 @@ export const vineSlap: Move = {
     type: Type.GRASS,
     moveCategory: MoveCategory.BASIC,
     animationKey: "",
-    attackPower: 0,
+    attackPower: 5,
     cooldown: 0,
 };
 
@@ -59,8 +59,18 @@ export const beakDance: Move = {
     type: Type.FLYING,
     moveCategory: MoveCategory.BASIC,
     animationKey: "",
-    attackPower: 0,
+    attackPower: 5,
     cooldown: 0,
 };
+
+export const flamethrower: Move = {
+    id: "",
+    name: "Flamethrower",
+    type: Type.FIRE,
+    moveCategory: MoveCategory.BASIC,
+    animationKey: "",
+    attackPower: 6,
+    cooldown: 0
+}
 
  
