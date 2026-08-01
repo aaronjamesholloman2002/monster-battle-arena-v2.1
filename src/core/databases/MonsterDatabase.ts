@@ -34,7 +34,7 @@ export const MonsterDatabase: Record<string, Monster> = {
         // move: ,
         hp: 120,
         attack: 70,
-        defense: 608,
+        defense: 60,
         speed: 55,
         accuracy: 0,
         evasion: 0,

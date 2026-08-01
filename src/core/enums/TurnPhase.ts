@@ -1,13 +1,6 @@
 export enum TurnPhase {
 
-    START,
-
-    STATUS_EFFECTS,
-
-    ACTION_SELECTION,
-
-    ACTION_EXECUTION,
-
-    END
+    PLAYERTURN = "Player's Turn",
+    ENEMYTURN = "Enemy's Turn"
 
 }

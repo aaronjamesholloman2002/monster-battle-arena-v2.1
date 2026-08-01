@@ -189,4 +189,14 @@
   cursor: pointer;
 }
 
+.dash-list {
+  list-style-type: none;
+  padding-left: 20px;
+}
 
+.dash-list li::before {
+  content: "- ";
+  margin-left: -15px;
+  display: inline-block;
+  width: 15px;
+}

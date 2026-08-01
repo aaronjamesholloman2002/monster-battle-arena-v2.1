@@ -13,7 +13,7 @@ export interface Move {
 
     animationKey: string,
 
-    attackPower: number;
+    attackMultiplier: number;
 
     cooldown: number;
 

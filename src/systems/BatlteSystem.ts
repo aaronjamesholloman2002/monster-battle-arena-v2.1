@@ -3,6 +3,7 @@ import type { Player } from "../core/entities/Player";
 import type { Monster } from "../core/entities/Monster";
 import type { Move } from "../core/entities/Move";
 import { Type } from "../core/enums/Type";
+import { TypeChart } from "../core/managers/TypeChart";
 
 export class BattleSystem {
 
@@ -18,194 +19,67 @@ export class BattleSystem {
     //     this.turn = turn;
     // }
 
-    static calculateDamage(attacker: Monster, defender: Monster, move: Move): number {
-        
-        let targetDefense = Math.max(1, defender.defense);
-        let damage = (attacker.attack * move.attackPower) - targetDefense;
+static calculateDamage(attacker: Monster, defender: Monster, move: Move): number {
+    
+    // 1. Get Base Damage Output
+    let damage = attacker.attack * move.attackMultiplier * (100 / (100 + defender.defense));
 
-        switch(move.type){
-            case Type.FIRE:
-                if(
-                    defender.type === Type.BUG ||
-                    defender.type === Type.GRASS ||
-                    defender.type === Type.ICE
-                ){
-                    damage *= 2;
-                }else if(defender.type === Type.FIRE){
-                    damage *= 0.5;
-                }else if(defender.type === Type.WATER){
-                    damage *= 0.25;
-                }else{
-                    damage *= 1;
-                }
-                break;
-            case Type.WATER:
-                if(
-                    defender.type === Type.FIRE
-                ){
-                    damage *= 2;
-                }else if(defender.type === Type.WATER){
-                    damage *= 0.5;
-                }else if (
-                    defender.type === Type.BUG ||
-                    defender.type === Type.GRASS ||
-                    defender.type === Type.ELECTRIC
-                    ){
-                        damage *= 0.25;
-                    }else{
-                        damage *= 1;
-                    }
-            break;
-            case Type.GRASS:
-                if(
-                    defender.type === Type.BUG ||
-                    defender.type === Type.GRASS ||
-                    defender.type === Type.ICE
-                ){
-                    damage *= 2;
-                }else if(defender.type === Type.WATER){
-                    damage *= 0.25;
-                }
-            break;
-            case Type.ICE:
-                if(
-                    defender.type === Type.BUG ||
-                    defender.type === Type.GRASS ||
-                    defender.type === Type.FLYING
-                ){
-                    damage *= 2;
-                }else if(
-                    defender.type === Type.WATER ||
-                    defender.type === Type.ICE
-                    ){
-                    damage *= 0.5;
-                }else if(defender.type === Type.FIRE){
-                    damage *= 0.25;
-                }
-            break;
-            case Type.FLYING:
-                if(
-                    defender.type === Type.BUG ||
-                    defender.type === Type.GRASS ||
-                    defender.type === Type.ICE
-                ){
-                    damage *= 2;
-                }else if(defender.type === Type.WATER){
-                    damage *= 0.25;
-                }
-            break;    
+    // 2. Critical Hit Multiplier
+    damage *= this.criticalHit();
+
+    // 3. Type Check / Type Multiplier
+    const multiplier =
+    TypeChart[move.type]?.[defender.type] ?? 1;
+    
+    damage *= multiplier;
+
+    // 4. Similar Type Attack Modifier (STAM / STAB)
+    if (attacker.type === move.type) {
+        damage *= 1.25;
     }
 
+    // 5. Minimum Damage Calculator (Fail Safe)
+    if(damage < 5){
+        return damage = (Math.floor(Math.random() * 10) + 5);
+    }
+    
     return Math.floor(damage);
 }
 
-    static getCurrHP(attacker: Monster , defender: Monster, move: Move): number{
-
-        let targetHP = defender.hp - this.calculateDamage(attacker, defender, move);
-
-        if(targetHP <= 0){
-            targetHP = 0;
-        }
-
-        return targetHP;
+    static executeMove(
+        attacker: Monster,
+        defender: Monster,
+        move: Move
+    ): number {
+    
+        const damage = this.calculateDamage(
+            attacker,
+            defender,
+            move
+        );
+    
+        this.applyDamage(defender, damage);
+    
+        return damage;
     }
 
-    // static dealDamage(attacker: Monster, defender: Monster, move: Move): number {
+    static applyDamage(
+        defender: Monster,
+        damage: number
+    ) {
     
+        defender.hp = Math.max(
+            0,
+            defender.hp - damage
+        );
+    
+    }
 
-    //     let targetDefense = Math.max(1, defender.defense);
-    //     let damage = (attacker.attack * move.attackPower) - targetDefense;
+static criticalHit():number{
+    const crit = Math.random() < 0.10 ? 2 : 1;
+    return crit;
+}
 
-    // // switch(move.type){
-    // //     case Type.FIRE:
-    // //         if(
-    // //             defender.type === Type.BUG ||
-    // //             defender.type === Type.GRASS ||
-    // //             defender.type === Type.ICE
-    // //         ){
-    // //             damage *= 2;
-    // //         }else if(defender.type === Type.FIRE){
-    // //             damage *= 0.5;
-    // //         }else if(defender.type === Type.WATER){
-    // //             damage *= 0.25;
-    // //         }else{
-    // //             damage *= 1;
-    // //         }
-    // //         break;
-    // //     case Type.WATER:
-    // //         if(
-    // //             defender.type === Type.FIRE
-    // //         ){
-    // //             damage *= 2;
-    // //         }else if(defender.type === Type.WATER){
-    // //             damage *= 0.5;
-    // //         }else if (
-    // //             defender.type === Type.BUG ||
-    // //             defender.type === Type.GRASS ||
-    // //             defender.type === Type.ELECTRIC
-    // //             ){
-    // //                 damage *= 0.25;
-    // //             }else{
-    // //                 damage *= 1;
-    // //             }
-    // //     break;
-    // //     case Type.GRASS:
-    // //         if(
-    // //             defender.type === Type.BUG ||
-    // //             defender.type === Type.GRASS ||
-    // //             defender.type === Type.ICE
-    // //         ){
-    // //             damage *= 2;
-    // //         }else if(defender.type === Type.WATER){
-    // //             damage *= 0.25;
-    // //         }
-    // //     break;
-    // //     case Type.ICE:
-    // //         if(
-    // //             defender.type === Type.BUG ||
-    // //             defender.type === Type.GRASS ||
-    // //             defender.type === Type.FLYING
-    // //         ){
-    // //             damage *= 2;
-    // //         }else if(
-    // //             defender.type === Type.WATER ||
-    // //             defender.type === Type.ICE
-    // //             ){
-    // //             damage *= 0.5;
-    // //         }else if(defender.type === Type.FIRE){
-    // //             damage *= 0.25;
-    // //         }
-    // //     break;
-    // //     case Type.FLYING:
-    // //         if(
-    // //             defender.type === Type.BUG ||
-    // //             defender.type === Type.GRASS ||
-    // //             defender.type === Type.ICE
-    // //         ){
-    // //             damage *= 2;
-    // //         }else if(defender.type === Type.WATER){
-    // //             damage *= 0.25;
-    // //         }
-    // //     break;
-    // // }
-
-    //     return Math.floor(damage);
-    // }
-
-    // static takeDamage(attacker: Monster, defender: Monster, move: Move): number{
-
-    //     let targetDefense = Math.max(1, defender.defense);
-    //     let damage = (attacker.attack * move.attackPower) - targetDefense;
-    //     let currHP = defender.hp - damage;
-
-    //     if(currHP <= 0){
-    //         currHP = 0;
-    //     }
-
-    //     return currHP;
-    // }
-
-static criticalHit(){}
 static reduceDamage(){}
-static startBattke(){}
+static startBattle(){}
 }
