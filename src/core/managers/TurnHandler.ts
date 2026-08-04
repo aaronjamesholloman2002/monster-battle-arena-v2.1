@@ -27,20 +27,25 @@ const enemy:Monster = {
 
 export class TurnHandler{
 
-    // private static turnCount: Number = 0;
+    static processTurn(): TurnHandler{
+        const turnCount: Number = 0;
+        let turnPhase: TurnPhase;
 
-    // static processTurn(){
-        
-    //     let turnPhase: TurnPhase = TurnPhase.PLAYERTURN;
+        switch(turnPhase){
+            case TurnPhase.PLAYERTURN:
+                BattleSystem.executeMove(player.team[0], enemy, player.team[0].move);
+                console.log(`${player.team[0].name}'s attack: ${player.team[0].move}, Damage: ${BattleSystem.calculateDamage(player.team[0], enemy, player.team[0].move)}`)
+                console.log(`${player.team[0].name}'s HP: ${player.team[0].hp}`);
+                console.log(`${enemy.name}'s HP: ${enemy.hp}`);
+                break;
+            case TurnPhase.ENEMYTURN:
+                BattleSystem.executeMove(enemy, player.team[0], enemy.move)
+                console.log(`${player.team[0].name}'s attack: ${player.team[0].move}, Damage: ${BattleSystem.calculateDamage(enemy, player.team[0] , enemy.move)}`)
+                console.log(`${enemy.name}'s HP: ${enemy.hp}`);
+                console.log(`${player.team[0].name}'s HP: ${player.team[0].hp}`);
+                break;
+        }
 
-    //     switch(turnPhase){
-    //         case TurnPhase.PLAYERTURN:
-    //             BattleSystem.executeMove(player.team[0], enemy, player.team[0].move);
-    //             turnPhase = TurnPhase.ENEMYTURN
-    //             break;
-    //         // case TurnPhase.ENEMYTURN:
-    //         //     BattleSystem.executeMove(enemy, player.team[0], enemy.move)
-    //         //     break;
-    //     }
-    // }
+        return TurnHandler.processTurn()
+    }
 }

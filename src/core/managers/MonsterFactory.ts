@@ -1,28 +1,23 @@
-import type { Monster, MonsterTemplate } from "../entities/Monster";
+import type { Monster } from "../entities/Monster";
 import { MonsterDatabase } from "../databases/MonsterDatabase";
 import { v4 as uuidv4 } from 'uuid';
 
 export class MonsterFactory {
 
-    static create(speciesID: string): Monster {
+    static create(id: string): Monster {
 
-        console.log("Creating monster:", speciesID);
-
-        const template: MonsterTemplate = MonsterDatabase[speciesID];
+        const template = Object.values(MonsterDatabase)
+            .find(monster => monster.id === id);
 
         if (!template) {
-            throw new Error(`Monster with ID ${speciesID} not found.`);
+            throw new Error(`Monster with ID ${id} not found.`);
         }
     // const template = MonsterDatabase[id];
         return {
             ...template,
-            
+
+            // Create a unique instance ID
             id: uuidv4(),
-
-            currentHP: template.hp,
-            level: 1,
-            experience: 0,
-
         };
     }
 

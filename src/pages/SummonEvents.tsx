@@ -70,7 +70,7 @@ export default function SummonEvent() {
                 <div className="mt-6 p-8 bg-slate-700 rounded-lg">
 
                     <p className="text-6xl">
-                        {summonedMonster.speciesIcon}
+                        {summonedMonster.speciesID}
                     </p>
 
                     <p className="mt-4 text-2xl font-bold">

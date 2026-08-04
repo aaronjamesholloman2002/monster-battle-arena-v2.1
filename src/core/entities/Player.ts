@@ -12,7 +12,7 @@ export interface Player{
     attack: number;
     defense: number;
     speed: number;
-    team: (Monster | null)[];
+    team: Monster[];
     monsterBox: Monster[];
     weapons: Weapon[];
     items: Item[];

@@ -1,6 +1,6 @@
 
 import type { Player } from "../core/entities/Player";
-import type { MonsterTemplate } from "../core/entities/Monster";
+import type { Monster } from "../core/entities/Monster";
 import { Type } from "../core/enums/Type";
 import type { Move } from "../core/entities/Move";
 import { getPlayer } from "../store/GameStore";
@@ -16,39 +16,39 @@ import { flamethrower, frostPunch, vineSlap } from "../core/databases/MovesDatab
 import { MonsterFactory } from "../core/managers/MonsterFactory";
 import { TurnHandler } from "../core/managers/TurnHandler";
 
-// const combatant: MonsterTemplate = {
-//     id: "0001",
-//     name: "Flarant",
-//     creature: Creature.ANT,
-//     type: Type.FIRE,
-//     hp: 60,
-//     attack: 20,
-//     defense: 30,
-//     speed: 80,
-//     passives: [],
-//     speciesID: "",
-//     rarity: Rarity.COMMON,
-//     accuracy: 0,
-//     evasion: 0,
-//     move: null,
-// }
+const combatant: Monster = {
+    id: "0001",
+    name: "Flarant",
+    creature: Creature.ANT,
+    type: Type.FIRE,
+    hp: 60,
+    attack: 20,
+    defense: 30,
+    speed: 80,
+    passives: [],
+    speciesID: "",
+    rarity: Rarity.COMMON,
+    accuracy: 0,
+    evasion: 0,
+    move: null,
+}
 
-// const enemy: MonsterTemplate = {
-//     id: "0001",
-//     name: "Flarant",
-//     creature: Creature.ANT,
-//     type: Type.GRASS,
-//     hp: 60,
-//     attack: 20,
-//     defense: 10,
-//     speed: 80,
-//     passives: [],
-//     speciesID: "",
-//     rarity: Rarity.COMMON,
-//     accuracy: 0,
-//     evasion: 0,
-//     move: vineSlap,
-// }
+const enemy: Monster = {
+    id: "0001",
+    name: "Flarant",
+    creature: Creature.ANT,
+    type: Type.GRASS,
+    hp: 60,
+    attack: 20,
+    defense: 10,
+    speed: 80,
+    passives: [],
+    speciesID: "",
+    rarity: Rarity.COMMON,
+    accuracy: 0,
+    evasion: 0,
+    move: vineSlap,
+}
 
 // function selectMonster() {
 
@@ -60,8 +60,8 @@ export default function BattleEvent({ }) {
     const navigate = useNavigate();
 
     const [playerSlot, setPlayerSlot] = useState<Player>(player);
-    const [slot1, setSlot1] = useState<MonsterTemplate | null>(null);
-    const [slot2, setSlot2] = useState<MonsterTemplate | null>(null);
+    const [slot1, setSlot1] = useState<Monster | null>(null);
+    const [slot2, setSlot2] = useState<Monster | null>(null);
     const [screenState, setScreenState] = useState(0);
 
     // const startBattle = () => {
@@ -92,16 +92,17 @@ export default function BattleEvent({ }) {
 
     // }
 
-    // function handleBattle(){
-
-    //     console.log(`Damage: ${BattleSystem.executeMove(player.team[0], enemy, player.team[0].move)}`);
-    // }
-
     useEffect(() => {
 
         if (!player) {
             navigate("/");
         }
+
+        console.log(`Greetings!! ${player.name}`);
+        console.log(`${player.team[0].name}'s Max HP: ${player.team[0].hp}`);
+        console.log(`Move: ${enemy.move.name},  Damage: ${BattleSystem.executeMove(enemy, player.team[0], enemy.move)}`);
+        // console.log(`${player.team[0].name}'s HP: ${BattleSystem.getCurrHP(enemy, player.team[0], enemy.move)}`);
+
     }, [])
 
 
@@ -125,9 +126,7 @@ export default function BattleEvent({ }) {
                 <div className="flex flex-col items-center justify-center">
                     <button
                         className="bg-red-500 p-2 m-2 rounded-2xl"
-                        onClick={() => { }
-
-                        }
+                        onClick={() => { TurnHandler.processTurn() }}
                     >Attack</button>
 
                     <button className="text-2xl text-white" onClick={() => navigate(-1)}>Back</button>
