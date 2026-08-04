@@ -40,6 +40,7 @@ export const frostPunch: Move = {
     moveCategory: MoveCategory.BASIC,
     animationKey: "",
     attackMultiplier: 3,
+    moveAccuracy: 0,
     cooldown: 0,
 };
 
@@ -50,6 +51,7 @@ export const vineSlap: Move = {
     moveCategory: MoveCategory.BASIC,
     animationKey: "",
     attackMultiplier: 2,
+    moveAccuracy: 0,
     cooldown: 0,
 };
 
@@ -60,6 +62,7 @@ export const beakDance: Move = {
     moveCategory: MoveCategory.BASIC,
     animationKey: "",
     attackMultiplier: 2,
+    moveAccuracy: 0,
     cooldown: 0,
 };
 
@@ -70,6 +73,7 @@ export const flamethrower: Move = {
     moveCategory: MoveCategory.BASIC,
     animationKey: "",
     attackMultiplier: 3,
+    moveAccuracy: 0,
     cooldown: 0
 }
 

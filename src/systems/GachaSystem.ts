@@ -26,7 +26,7 @@ export function summonMonster(
         availableMonsters[randomIndex];
 
     return MonsterFactory.create(
-        selectedMonster.id
+        selectedMonster.speciesID
     );
 }
 
@@ -41,5 +41,5 @@ function getMonsterByRarity(rarity: Rarity): Monster {
 
     const randomMonster = monsters[Math.floor(Math.random() * monsters.length)];
 
-    return MonsterFactory.create(randomMonster.id);
+    return MonsterFactory.create(randomMonster.speciesID);
 }

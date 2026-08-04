@@ -9,6 +9,8 @@ export interface Move {
 
     type: Type;
 
+    moveAccuracy: number;
+
     moveCategory: MoveCategory;
 
     animationKey: string,

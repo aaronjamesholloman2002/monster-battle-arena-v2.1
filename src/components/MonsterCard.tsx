@@ -8,8 +8,12 @@ interface MonsterCardProps {
 
 export function MonsterCard({ monster }: MonsterCardProps) {
     return (
-        <div className="bg-slate-800 rounded-xl text-white p-20 m-5">
-            <h1 className="text-6xl">{monster.speciesID}</h1>
+        <div
+            draggable
+            onDragStart={(e) => e.dataTransfer.setData("monsterId", monster.id)}
+            className="bg-slate-800 rounded-xl text-white p-20 m-5"
+        >
+            <h1 className="text-6xl">{monster.speciesIcon}</h1>
 
             <h2 className="text-2xl">{monster.name}</h2>
 

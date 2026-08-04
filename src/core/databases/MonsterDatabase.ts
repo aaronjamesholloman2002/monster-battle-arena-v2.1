@@ -1,15 +1,16 @@
-import type { Monster } from "../entities/Monster";
+import type { Monster, MonsterTemplate } from "../entities/Monster";
 import { Creature } from "../enums/Creature";
 import { Rarity } from "../enums/Rarity";
 import { Type } from "../enums/Type";
 import { beakDance, flamethrower, frostPunch, vineSlap } from "./MovesDatabase";
 import { regenBoost, revengeFurry } from "./PassiveSkillDatabase";
+import { v4 as uuidv4 } from 'uuid';
 
-export const MonsterDatabase: Record<string, Monster> = {
+export const MonsterDatabase: Record<string, MonsterTemplate> = {
     
     "0001": {
-        id: "0001",
-        speciesID: "🐒",
+        speciesID: "0001",
+        speciesIcon: "🐒",
         rarity: Rarity.RARE,
         name: "Rimeape",
         creature: Creature.MONKEY,
@@ -25,8 +26,8 @@ export const MonsterDatabase: Record<string, Monster> = {
         passives: []
     },
     "0002": {
-        id: "0002",
-        speciesID: "🐼",
+        speciesID: "0002",
+        speciesIcon: "🐼",
         rarity: Rarity.RARE,
         name: "Bambeast",
         creature: Creature.PANDA,
@@ -42,8 +43,8 @@ export const MonsterDatabase: Record<string, Monster> = {
         passives: []
     },
     "0003": {
-        id: "0003",
-        speciesID: "🕊️",
+        speciesID: "0003",
+        speciesIcon: "🕊️",
         rarity: Rarity.RARE,
         name: "Whifdraft",
         creature: Creature.BIRD,
@@ -59,8 +60,8 @@ export const MonsterDatabase: Record<string, Monster> = {
         passives: []
     },
     "0004": {
-        id: "0004",
-        speciesID: "🐜",
+        speciesID: "0004",
+        speciesIcon: "🐜",
         rarity: Rarity.COMMON,
         name: "Flarant",
         creature: Creature.ANT,
@@ -77,8 +78,8 @@ export const MonsterDatabase: Record<string, Monster> = {
     },
 
     "0005": {
-        id: "0005",
-        speciesID: "🐘",
+        speciesID: "0005",
+        speciesIcon: "🐘",
         rarity: Rarity.COMMON,
         name: "Elegiphant",
         creature: Creature.ELEPHANT,
@@ -94,8 +95,8 @@ export const MonsterDatabase: Record<string, Monster> = {
     },
 
     "0006": {
-        id: "0006",
-        speciesID: "🌿",
+        speciesID: "0006",
+        speciesIcon: "🌿",
         rarity: Rarity.COMMON,
         name: "Plantrum",
         creature: Creature.PLANT,
@@ -111,8 +112,8 @@ export const MonsterDatabase: Record<string, Monster> = {
     },
 
     "0007": {
-        id: "0007",
-        speciesID: "🐛",
+        speciesID: "0007",
+        speciesIcon: "🐛",
         rarity: Rarity.UNCOMMON,
         name: "Caterpule",
         creature: Creature.CATERPILLAR,
@@ -128,8 +129,8 @@ export const MonsterDatabase: Record<string, Monster> = {
       },
 
       "0008": {
-        id: "0008",
-        speciesID: "⚡️",
+        speciesID: "0008",
+        speciesIcon: "⚡️",
         rarity: Rarity.RARE,
         name: "Voltrab",
         creature: Creature.RABBIT,
@@ -145,8 +146,8 @@ export const MonsterDatabase: Record<string, Monster> = {
       },
 
       "0009": {
-        id: "0009",
-        speciesID: "🐧",
+        speciesID: "0009",
+        speciesIcon: "🐧",
         rarity: Rarity.RARE,
         name: "Iglio",
         creature: Creature.PENGUIN,
@@ -162,8 +163,8 @@ export const MonsterDatabase: Record<string, Monster> = {
       },
 
       "0010": {
-        id: "0010",
-        speciesID: "👻",
+        speciesID: "0010",
+        speciesIcon: "👻",
         rarity: Rarity.ULTRARARE,
         name: "Spectrium",
         creature: Creature.GHOST,
@@ -179,8 +180,8 @@ export const MonsterDatabase: Record<string, Monster> = {
       },
 
       "0011": {
-        id: "0011",
-        speciesID: "🐲",
+        speciesID: "0011",
+        speciesIcon: "🐲",
         rarity: Rarity.LEGENDARY,
         name: "Korigon",
         creature: Creature.DRAGON,
@@ -196,8 +197,8 @@ export const MonsterDatabase: Record<string, Monster> = {
       },
 
       "0012": {
-        id: "0012",
-        speciesID: "🐲",
+        speciesID: "0012",
+        speciesIcon: "🐲",
         rarity: Rarity.LEGENDARY,
         name: "Infernados",
         creature: Creature.DRAGON,
@@ -211,7 +212,5 @@ export const MonsterDatabase: Record<string, Monster> = {
         move: null,
         passives: [],
       }
-
-      
 }
 
