@@ -31,6 +31,9 @@ const combatant: Monster = {
     accuracy: 0,
     evasion: 0,
     move: null,
+    level: 0,
+    experience: 0,
+    speciesIcon: ""
 }
 
 const enemy: Monster = {
@@ -48,7 +51,54 @@ const enemy: Monster = {
     accuracy: 0,
     evasion: 0,
     move: vineSlap,
+    level: 0,
+    experience: 0,
+    speciesIcon: ""
 }
+
+// export interface Combatant {
+//     id: string;
+//     name: string;
+//     isPlayer: boolean;
+//     creature?: Creature;
+//     type?: Type;
+//     maxHp: number;
+//     hp: number;
+//     attack: number;
+//     defense: number;
+//     speed: number;
+//     passives: PassiveSkill[];
+//     statuses: StatusEffect[];
+// }
+
+// export function monsterToCombatant(m: Monster, tag = ""): Combatant {
+//     return {
+//         id: `${m.name}-${tag}-${id()}`,
+//         name: m.name,
+//         isPlayer: false,
+//         creature: m.creature,
+//         type: m.type,
+//         maxHp: m.hp,
+//         hp: m.hp,
+//         attack: m.attack,
+//         defense: 10,
+//         speed: m.speed,
+//         passives: m.passives,
+//         statuses: [],
+//     };
+// }
+
+// const pick = <T,>(arr: T[]): T => arr[rand(arr.length)];
+// const rand = (n: number) => Math.floor(Math.random() * n);
+
+// export function makeRandomEnemyTeam(): Combatant[] {
+//     const size = 1 + rand(3); // 1..3
+//     const team: Combatant[] = [];
+//     for (let i = 0; i < size; i++) {
+//         team.push(monsterToCombatant(pick(enemyPool), "e" + i));
+//     }
+//     return team;
+// }
 
 // function selectMonster() {
 

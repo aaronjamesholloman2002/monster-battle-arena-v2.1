@@ -5,9 +5,9 @@ import type { PassiveSkill } from "./PassiveSkill";
 import type { Rarity } from "../enums/Rarity";
 import type { Move } from "./Move";
 
-export interface Monster {
-    id: string;
+export interface MonsterTemplate {
     speciesID: string;
+    speciesIcon: string;
     rarity: Rarity;
     name: string;
     creature: Creature;
@@ -21,3 +21,11 @@ export interface Monster {
     move: Move;
     passives: PassiveSkill[];
   }
+
+  export interface Monster extends MonsterTemplate {
+    id: string;      // Unique UUID
+    level: number;
+    experience: number;
+}
+
+  

@@ -1,17 +1,28 @@
 import { DividerHorizontalIcon } from "@radix-ui/react-icons";
 import type { Monster } from "../core/entities/Monster";
-import React from "react";
+import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { player } from "../pages/MainMenu";
+import { TeamBuilder } from "../core/managers/TeamBuilder";
+import { getPlayer, setPlayer as savePlayer } from "../store/GameStore";
+import { motion } from "framer-motion";
 
 interface MonsterCardProps {
     monster: Monster;
 }
 
-export function MonsterCard({ monster }: MonsterCardProps) {
-    return (
-        <div className="bg-slate-800 rounded-xl text-white p-20 m-5">
-            <h1 className="text-6xl">{monster.speciesID}</h1>
+export function MonsterCard({ monster }): MonsterCardProps {
 
-            <h2 className="text-2xl">{monster.name}</h2>
+    // const [player, setCurrentPlayer] = useState(() => getPlayer());
+    const navigate = useNavigate();
+
+    return (
+        <div className="bg-slate-800 rounded-xl text-white p-25 m-5">
+            <div className="flex flex-row items-end justify-end">
+                <h1 className="text-6xl">{monster.speciesIcon}</h1>
+
+                <h2 className="text-2xl">{monster.name}</h2>
+            </div>
 
             <br />
 
