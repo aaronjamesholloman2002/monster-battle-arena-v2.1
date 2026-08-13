@@ -1,161 +1,93 @@
-
-import type { Player } from "../core/entities/Player";
 import type { Monster } from "../core/entities/Monster";
-import { Type } from "../core/enums/Type";
-import type { Move } from "../core/entities/Move";
 import { getPlayer } from "../store/GameStore";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Creature } from "../core/enums/Creature";
-import type { PassiveSkill } from "../core/entities/PassiveSkill";
-import type { StatusEffect } from "../core/enums/StatusEffect";
-import { MonsterDatabase } from "../core/databases/MonsterDatabase";
-import { Rarity } from "../core/enums/Rarity";
 import { BattleSystem } from "../systems/BatlteSystem";
-import { flamethrower, frostPunch, vineSlap } from "../core/databases/MovesDatabase";
-import { MonsterFactory } from "../core/managers/MonsterFactory";
-import { TurnHandler } from "../core/managers/TurnHandler";
+import { DemoStages } from "../core/models/DemoStages";
+import { motion } from "framer-motion";
+import type { BattleState } from "../core/batttle/BattleState";
+import type { BattleAction } from "../core/managers/BattleAction";
+import type { BattleMonster } from "../core/batttle/BattleMonster";
+import { createBattleMonster } from "../core/managers/CreateBattleMonster";
 
-const combatant: Monster = {
-    id: "0001",
-    name: "Flarant",
-    creature: Creature.ANT,
-    type: Type.FIRE,
-    hp: 60,
-    attack: 20,
-    defense: 30,
-    speed: 80,
-    passives: [],
-    speciesID: "",
-    rarity: Rarity.COMMON,
-    accuracy: 0,
-    evasion: 0,
-    move: null,
-    level: 0,
-    experience: 0,
-    speciesIcon: ""
-}
+const currentStage = DemoStages[4];
+const enemy = currentStage.enemies[0];
 
-const enemy: Monster = {
-    id: "0001",
-    name: "Flarant",
-    creature: Creature.ANT,
-    type: Type.GRASS,
-    hp: 60,
-    attack: 20,
-    defense: 10,
-    speed: 80,
-    passives: [],
-    speciesID: "",
-    rarity: Rarity.COMMON,
-    accuracy: 0,
-    evasion: 0,
-    move: vineSlap,
-    level: 0,
-    experience: 0,
-    speciesIcon: ""
-}
-
-// export interface Combatant {
-//     id: string;
-//     name: string;
-//     isPlayer: boolean;
-//     creature?: Creature;
-//     type?: Type;
-//     maxHp: number;
-//     hp: number;
-//     attack: number;
-//     defense: number;
-//     speed: number;
-//     passives: PassiveSkill[];
-//     statuses: StatusEffect[];
-// }
-
-// export function monsterToCombatant(m: Monster, tag = ""): Combatant {
-//     return {
-//         id: `${m.name}-${tag}-${id()}`,
-//         name: m.name,
-//         isPlayer: false,
-//         creature: m.creature,
-//         type: m.type,
-//         maxHp: m.hp,
-//         hp: m.hp,
-//         attack: m.attack,
-//         defense: 10,
-//         speed: m.speed,
-//         passives: m.passives,
-//         statuses: [],
-//     };
-// }
-
-// const pick = <T,>(arr: T[]): T => arr[rand(arr.length)];
-// const rand = (n: number) => Math.floor(Math.random() * n);
-
-// export function makeRandomEnemyTeam(): Combatant[] {
-//     const size = 1 + rand(3); // 1..3
-//     const team: Combatant[] = [];
-//     for (let i = 0; i < size; i++) {
-//         team.push(monsterToCombatant(pick(enemyPool), "e" + i));
-//     }
-//     return team;
-// }
-
-// function selectMonster() {
-
-// }
-
-export default function BattleEvent({ }) {
+export default function BattleEvent() {
 
     const player = getPlayer();
     const navigate = useNavigate();
-
-    const [playerSlot, setPlayerSlot] = useState<Player>(player);
-    const [slot1, setSlot1] = useState<Monster | null>(null);
-    const [slot2, setSlot2] = useState<Monster | null>(null);
     const [screenState, setScreenState] = useState(0);
-
-    // const startBattle = () => {
-    //     setPlayerSlot(player);
-    //     setSlot1();
-    // }
-
-    // useEffect(() => {
-    //     if (!player) { navigate("/") }
-
-    // }, [player, navigate])
-
-    // if (player.team.length === 2) {
-    //     return;
-    // }
-
-    // function spawnEnemy(): Monster{
-    //     return MonsterFactory.create(
-
-    //     )
-    // }
-
-    // if (battleTeam.length >= 3) {
-    //     return;
-    // }
-
-    // function handleBattleTeam() {
-
-    // }
+    const [battleTeam, setBattleTeam] = useState<BattleMonster[]>([]);
+    const [battleEnemyTeam, setBattleEnemyTeam] = useState<BattleMonster[]>([]);
+    const [selectedAttacker, setSelectedAttacker] = useState<BattleMonster | null>(null);
+    const [selectedTarget, setSelectedTarget] = useState<BattleMonster | null>(null);
+    const [battleActions, setBattleActions] = useState<BattleAction[]>([]);
+    // const [battle, setBattle] = useState<BattleState>();
 
     useEffect(() => {
 
         if (!player) {
             navigate("/");
         }
+        setBattleTeam(player.team.map((monster) => createBattleMonster(monster)));
+    }, [player, navigate])
 
-        console.log(`Greetings!! ${player.name}`);
-        console.log(`${player.team[0].name}'s Max HP: ${player.team[0].hp}`);
-        console.log(`Move: ${enemy.move.name},  Damage: ${BattleSystem.executeMove(enemy, player.team[0], enemy.move)}`);
-        // console.log(`${player.team[0].name}'s HP: ${BattleSystem.getCurrHP(enemy, player.team[0], enemy.move)}`);
+    const startBattle = () => {
 
-    }, [])
+        setBattleEnemyTeam(
+            currentStage.enemies.map(monsrer =>
+                createBattleMonster(monsrer)
+            ));
 
+        setBattleTeam(
+            player.team.map(monster => createBattleMonster(monster))
+        );
 
+        setScreenState(1);
+    };
+
+    const selectAttacker = (monster: BattleMonster) => {
+
+        if (!monster.move) return;
+
+        setSelectedAttacker(monster);
+    };
+
+    const selectTarget = (target: BattleMonster) => {
+
+        if (!selectedAttacker) {
+            return;
+        }
+
+        setSelectedTarget(target);
+    };
+
+    const confirmAction = () => {
+
+        if (!selectedAttacker || !selectedTarget) {
+            return;
+        }
+
+        if (!selectedAttacker.move) {
+            return;
+        }
+
+        const action: BattleAction = {
+            attacker: selectedAttacker,
+            target: selectedTarget,
+            move: selectedAttacker.move,
+            order: battleActions.length + 1
+        };
+
+        setBattleActions(prev => [
+            ...prev,
+            action
+        ]);
+
+        setSelectedAttacker(null);
+        setSelectedTarget(null);
+    };
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-slate-900">
@@ -165,30 +97,100 @@ export default function BattleEvent({ }) {
                     <h1 className="text-6xl text-white font-black">Battle Arena</h1>
 
                     <button
-                        onClick={() => setScreenState(1)}
+                        onClick={() => {
+                            startBattle()
+                        }}
                         className="p-2 m-2 text-white bg-blue-300 rounded"
                     >Start Battle</button>
 
                     <button className="text-2xl text-white" onClick={() => navigate(-1)}>Back</button>
                 </div>
             },
+
             {screenState === 1 &&
                 <div className="flex flex-col items-center justify-center">
+                    <div className="text-white text-5xl font-black">{ }Monster's Turn</div>
+                    <br />
+                    <div className=" flex flex-row items-center justify-center gap-20">
+
+                        {battleTeam.map(monster => (
+                            <div
+                                onClick={() => selectAttacker(monster)}
+                                key={monster.id.toString()}
+                                className="flex flex-col items-center justify-center bg-slate-700 p-2 m-2 hover:bg-slate-500">
+                                <p className="text-6xl bg-white p-2 m-2">{monster.speciesIcon}</p>
+                                <p>{monster.name}</p>
+                                <p>HP: {monster.currentHP}</p>
+                                <div>
+                                    {monster.move?.name}: {monster.move.attackMultiplier}
+                                </div>
+                            </div>
+                        ))}
+
+                        {battleEnemyTeam.map(enemy => (
+                            <motion.div
+                                key={enemy.id}
+                                onClick={() => selectTarget(enemy)}
+                                className="flex flex-col items-center justify-center bg-slate-700 p-2 m-2 hover:bg-slate-500"
+                            >
+                                <div className="bg-white text-5xl p-2 m-2">
+                                    {enemy.speciesIcon}
+                                </div>
+
+                                <div>{enemy.name}</div>
+
+                                <div>
+                                    HP: {enemy.currentHP}
+                                </div>
+                            </motion.div>
+                        ))}
+
+                        {/* <motion.div
+                            onClick={() => {
+                                if (!selectedAttacker) return;
+
+                                const action: BattleAction = {
+                                    attacker: selectedAttacker,
+                                    target: battleEnemyTeam[0],
+                                    move: selectedAttacker.move!,
+                                    order: battleActions.length + 1
+                                };
+
+                                setBattleActions(prev => [
+                                    ...prev,
+                                    action
+                                ]);
+
+                                setSelectedAttacker(null);
+                            }}
+                            className="flex flex-col items-center justify-center bg-slate-700 p-2 m-2">
+                            <div className="bg-white text-5xl p-2 m-2">{battleEnemy.speciesIcon}</div>
+                            <div>{battleEnemy.name}</div>
+                            <motion.div>{battleEnemy.hp}</motion.div>
+                        </motion.div> */}
+
+                        {/* <div className="text-white">
+                            <h2>Attack Order</h2>
+
+                            {battleActions.map(action => (
+                                <div key={action.order}>
+                                    {action.order}. {action.attacker.name}
+                                    {" → "}
+                                    {action.target.name}
+                                </div>
+                            ))}
+                        </div> */}
+                    </div>
+
                     <button
-                        className="bg-red-500 p-2 m-2 rounded-2xl"
-                        onClick={() => { TurnHandler.processTurn() }}
-                    >Attack</button>
-
+                        onClick={confirmAction}
+                        disabled={!selectedAttacker || !selectedTarget}
+                        className="p-2 m-2 bg-amber-600"
+                    >
+                        Confirm Attack
+                    </button>
                     <button className="text-2xl text-white" onClick={() => navigate(-1)}>Back</button>
-                </div>
-
-            }
-            {/* {battleTeam.map(monsters => (
-                <button
-                    onClick={() => setBattleTeam(monsterTeam)}
-                >Set Team</button>
-            ))} */}
-
+                </div>}
         </div>
     );
 }

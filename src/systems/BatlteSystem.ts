@@ -4,6 +4,7 @@ import type { Monster } from "../core/entities/Monster";
 import type { Move } from "../core/entities/Move";
 import { Type } from "../core/enums/Type";
 import { TypeChart } from "../core/managers/TypeChart";
+import { addAttrValue } from "framer-motion";
 
 export class BattleSystem {
 
@@ -40,7 +41,8 @@ static calculateDamage(attacker: Monster, defender: Monster, move: Move): number
 
     // 5. Minimum Damage Calculator (Fail Safe)
     if(damage < 5){
-        return damage = (Math.floor(Math.random() * 10) + 5);
+        damage = (Math.floor(Math.random() * 10) + 5);
+        // damage = Math.max(5, damage);
     }
     
     return Math.floor(damage);
@@ -76,10 +78,16 @@ static calculateDamage(attacker: Monster, defender: Monster, move: Move): number
     }
 
 static criticalHit():number{
-    const crit = Math.random() < 0.10 ? 2 : 1;
+    const crit = Math.random() < 0.20 ? 1.25 : 1;
     return crit;
 }
 
-static reduceDamage(){}
-static startBattle(){}
+// static reduceDamage(defender:Monster, attacker:Monster):number{
+
+//     const reduction = (defender.defense / 100);
+
+//     return reduction;
+// }
+
+// static startBattle(){}
 }

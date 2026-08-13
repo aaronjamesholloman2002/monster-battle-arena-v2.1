@@ -7,45 +7,32 @@ import { Rarity } from "../enums/Rarity";
 import { Creature } from "../enums/Creature";
 import { Type } from "../enums/Type";
 import { beakDance } from "../databases/MovesDatabase";
+import { getPlayer } from "../../store/GameStore";
+import { useState } from "react";
+import type { BattleState } from "../batttle/BattleState";
+import type { Move } from "../entities/Move";
 
-const enemy:Monster = {
-    id: "0003",
-    speciesID: "",
-    rarity: Rarity.COMMON,
-    name: "Whifdraft",
-    creature: Creature.MONKEY,
-    type: Type.FIRE,
-    hp: 120,
-    attack: 40,
-    defense: 30,
-    speed: 70,
-    accuracy: 80,
-    evasion: 90,
-    move: beakDance,
-    passives: []
+const battleState: BattleState = {
+    turn: 0,
+    playerTeam: [],
+    enemyTeam: [],
+    currentPlayer: 0,
+    currentEnemy: 0,
+    phase: "SELECT_ATTACKERS",
+    winner: "PLAYER",
+    actions: []
 }
 
-export class TurnHandler{
+export function processTurn(attacker:Monster, defender:Monster, move:Move){
 
-    static processTurn(): TurnHandler{
-        const turnCount: Number = 0;
-        let turnPhase: TurnPhase;
-
-        switch(turnPhase){
-            case TurnPhase.PLAYERTURN:
-                BattleSystem.executeMove(player.team[0], enemy, player.team[0].move);
-                console.log(`${player.team[0].name}'s attack: ${player.team[0].move}, Damage: ${BattleSystem.calculateDamage(player.team[0], enemy, player.team[0].move)}`)
-                console.log(`${player.team[0].name}'s HP: ${player.team[0].hp}`);
-                console.log(`${enemy.name}'s HP: ${enemy.hp}`);
-                break;
-            case TurnPhase.ENEMYTURN:
-                BattleSystem.executeMove(enemy, player.team[0], enemy.move)
-                console.log(`${player.team[0].name}'s attack: ${player.team[0].move}, Damage: ${BattleSystem.calculateDamage(enemy, player.team[0] , enemy.move)}`)
-                console.log(`${enemy.name}'s HP: ${enemy.hp}`);
-                console.log(`${player.team[0].name}'s HP: ${player.team[0].hp}`);
-                break;
-        }
-
-        return TurnHandler.processTurn()
+    let turnPhase: TurnPhase;
+    
+    switch(turnPhase){
+        case TurnPhase.PLAYERTURN:
+            turnPhase = TurnPhase.ENEMYTURN;
+            break;
+        case TurnPhase.ENEMYTURN:
+            TurnPhase.PLAYERTURN;
+            break;
     }
 }

@@ -34,7 +34,7 @@ export default function MonsterDetails() {
 
             <div className="mt-6 p-6 bg-slate-800 rounded-xl text-white w-96">
                 <div className="flex flex-col items-center justify-center">
-                    <h1 className="text-6xl">
+                    <h1 className="text-6xl bg-white p-2 m-2 rounded-2xl">
                         {selectedMonster.speciesIcon}
                     </h1>
 

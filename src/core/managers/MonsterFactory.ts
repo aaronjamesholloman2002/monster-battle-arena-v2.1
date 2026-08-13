@@ -12,6 +12,7 @@ export class MonsterFactory {
         if (!template) {
             throw new Error(`Monster with ID ${speciesID} not found.`);
         }
+        
     // const template = MonsterDatabase[id];
         return {
             ...template,

@@ -2,7 +2,7 @@ import type { Monster, MonsterTemplate } from "../entities/Monster";
 import { Creature } from "../enums/Creature";
 import { Rarity } from "../enums/Rarity";
 import { Type } from "../enums/Type";
-import { beakDance, flamethrower, frostPunch, vineSlap } from "./MovesDatabase";
+import { beakDance, bubbleslap, bugbite, firepinch, flamethrower, frostpunch, icybreath, thunderbolt, vineslap } from "./MovesDatabase";
 import { regenBoost, revengeFurry } from "./PassiveSkillDatabase";
 
 export const MonsterDatabase: Record<string, MonsterTemplate> = {
@@ -16,12 +16,12 @@ export const MonsterDatabase: Record<string, MonsterTemplate> = {
         type: Type.ICE,
         // move: ,
         hp: 100,
-        attack: 80,
+        attack: 30,
         defense: 45,
         speed: 90,
         accuracy: 0,
         evasion: 0,
-        move: frostPunch,
+        move: frostpunch,
         passives: []
     },
     "0002": {
@@ -33,12 +33,12 @@ export const MonsterDatabase: Record<string, MonsterTemplate> = {
         type: Type.GRASS,
         // move: ,
         hp: 120,
-        attack: 70,
+        attack: 20,
         defense: 60,
         speed: 55,
         accuracy: 0,
         evasion: 0,
-        move: vineSlap,
+        move: vineslap,
         passives: []
     },
     "0003": {
@@ -50,7 +50,7 @@ export const MonsterDatabase: Record<string, MonsterTemplate> = {
         type: Type.FLYING,
         // move: ,
         hp: 90,
-        attack: 70,
+        attack: 25,
         defense: 55,
         speed: 75,
         accuracy: 0,
@@ -67,12 +67,12 @@ export const MonsterDatabase: Record<string, MonsterTemplate> = {
         type: Type.FIRE,
         // move: ,
         hp: 60,
-        attack: 70,
+        attack: 30,
         defense: 55,
         speed: 75,
         accuracy: 0,
         evasion: 0,
-        move: flamethrower,
+        move: firepinch,
         passives: []
     },
 
@@ -84,12 +84,12 @@ export const MonsterDatabase: Record<string, MonsterTemplate> = {
         creature: Creature.ELEPHANT,
         type: Type.WATER,
         hp: 120,
-        attack: 50,
+        attack: 20,
         defense: 80,
         speed: 40,
         accuracy: 0,
         evasion: 0,
-        move: null,
+        move: bubbleslap,
         passives: []
     },
 
@@ -101,12 +101,12 @@ export const MonsterDatabase: Record<string, MonsterTemplate> = {
         creature: Creature.PLANT,
         type: Type.GRASS,
         hp: 100,
-        attack: 40,
+        attack: 15,
         defense: 30,
         speed: 55,
         accuracy: 0,
         evasion: 0,
-        move: null,
+        move: vineslap,
         passives: []
     },
 
@@ -118,12 +118,12 @@ export const MonsterDatabase: Record<string, MonsterTemplate> = {
         creature: Creature.CATERPILLAR,
         type: Type.BUG,
         hp: 90,
-        attack: 40,
+        attack: 10,
         defense: 40,
         speed: 70,
         accuracy: 0,
         evasion: 0,
-        move: null,
+        move: bugbite,
         passives: [],
       },
 
@@ -135,12 +135,12 @@ export const MonsterDatabase: Record<string, MonsterTemplate> = {
         creature: Creature.RABBIT,
         type: Type.ELECTRIC,
         hp: 80,
-        attack: 65,
-        defense: 50,
+        attack: 25,
+        defense: 30,
         speed: 90,
         accuracy: 0,
         evasion: 0,
-        move: null,
+        move: thunderbolt,
         passives: [],
       },
 
@@ -152,12 +152,12 @@ export const MonsterDatabase: Record<string, MonsterTemplate> = {
         creature: Creature.PENGUIN,
         type: Type.ICE,
         hp: 120,
-        attack: 45,
+        attack: 40,
         defense: 100,
         speed: 60,
         accuracy: 0,
         evasion: 0,
-        move: null,
+        move: frostpunch,
         passives: [],
       },
 
@@ -169,12 +169,12 @@ export const MonsterDatabase: Record<string, MonsterTemplate> = {
         creature: Creature.GHOST,
         type: Type.GHOST,
         hp: 100,
-        attack: 45,
+        attack: 30,
         defense: 90,
         speed: 80,
         accuracy: 0,
         evasion: 0,
-        move: null,
+        move: thunderbolt,
         passives: [],
       },
 
@@ -186,12 +186,12 @@ export const MonsterDatabase: Record<string, MonsterTemplate> = {
         creature: Creature.DRAGON,
         type: Type.ICE,
         hp: 180,
-        attack: 110,
+        attack: 70,
         defense: 150,
         speed: 90,
         accuracy: 0,
         evasion: 0,
-        move: null,
+        move: icybreath,
         passives: [],
       },
 
@@ -203,12 +203,12 @@ export const MonsterDatabase: Record<string, MonsterTemplate> = {
         creature: Creature.DRAGON,
         type: Type.FIRE,
         hp: 150,
-        attack: 120,
+        attack: 80,
         defense: 100,
         speed: 90,
         accuracy: 0,
         evasion: 0,
-        move: null,
+        move: flamethrower,
         passives: [],
       }
 

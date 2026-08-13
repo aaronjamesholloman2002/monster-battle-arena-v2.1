@@ -9,7 +9,6 @@ import { useNavigate } from "react-router-dom";
 import { MonsterDatabase } from "../core/databases/MonsterDatabase";
 import { MonsterFactory } from "../core/managers/MonsterFactory";
 import { setPlayer as savePlayer } from "../store/GameStore";
-import { MonsterCard } from "../components/MonsterCard";
 
 export default function NewGame() {
 
@@ -31,7 +30,6 @@ export default function NewGame() {
     // const [team, setTeam] = useState<Monster>();
 
     const [step, setStep] = useState(0);
-
     const navigate = useNavigate();
 
     // const buttonRef = useRef<HTMLButtonElement | null>(null);
@@ -53,6 +51,8 @@ export default function NewGame() {
         setStep(1);
 
     };
+
+
 
     function chooseStarter(monsterID: string) {
 
@@ -101,7 +101,7 @@ export default function NewGame() {
                     <input
                         value={inputValue}
                         onChange={(e) => setInputValue(e.target.value)}
-                        onKeyDown={(e) => { if (e.key === "Enter") { handleContinue(); } }}
+                        onKeyDown={(e) => { if (e.key === "Enter") { handleContinue() } }}
                         className="p-2 m-2 text-white"
                     />
 
@@ -167,46 +167,48 @@ export default function NewGame() {
 
                     <br />
 
-
-                    <span className="space-x-1">
+                    <div className="flex flex-col space-y-2">
                         <button
-                            className="text-white"
+                            className="text-black bg-slate-700 rounded-2xl p-2 m-2"
                             onClick={() => {
                                 chooseStarter("0001")
                                 navigate("/main-menu")
                             }}
 
                         >
-                            Rimeape
+                            <div>🐒</div>
+                            <p>Rimeape</p>
                         </button>
                         <button
-                            className="text-white"
+                            className="text-black bg-slate-700 rounded-2xl p-2 m-2"
                             onClick={() => {
                                 chooseStarter("0002")
                                 navigate("/main-menu")
                             }}
                         >
-                            Bambeast
+                            <div>🐼</div>
+                            <p>Bambeast</p>
                         </button>
                         <button
-                            className="text-white"
+                            className="text-black bg-slate-700 rounded-2xl p-2 m-2"
                             onClick={() => {
                                 chooseStarter("0003")
                                 navigate("/main-menu")
                             }}
 
                         >
-                            Whifdraft
+                            <div>🕊️</div>
+                            <p>Whifdraft</p>
                         </button>
-                    </span>
+                    </div>
 
-                    {player?.team.map(monster => (
+                    {/* {player?.team.map(monster => (
 
                         <p key={monster.id} className="text-white">
                             {monster.name}
                         </p>
 
-                    ))}
+                    ))} */}
                 </>
 
             )}
@@ -214,7 +216,7 @@ export default function NewGame() {
         </div>
     );
 
-    const displayPlayer = () => {
+    // const displayPlayer = () => {
 
-    }
+    // }
 }

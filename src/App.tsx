@@ -17,8 +17,10 @@ export default function App() {
   const changeScreen = (menuState: MenuState) => {
 
     alert("You are being sent to " + menuState + " Screen");
-
   };
+  // const isDemoMode = import.meta.env.VITE_DEMO_MODE === 'true';
+
+  // if (isDemoMode) { return (); }
 
   return (
     <Routes>
