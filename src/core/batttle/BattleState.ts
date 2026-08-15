@@ -1,5 +1,5 @@
 import type { TurnPhase } from "../enums/TurnPhase";
-import type { BattleAction } from "../managers/BattleAction";
+import type { BattleAction } from "../models/BattleAction";
 import type { BattleMonster } from "./BattleMonster";
 
 export interface BattleState {

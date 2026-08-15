@@ -52,19 +52,19 @@ export function TitleScreen({ changeScreen }: Props) {
                 New Game
             </button>
 
-            <button
+            {/* <button
                 className="w-64 py-4 bg-blue-600 rounded-xl mb-4 hover:bg-blue-500 ui-hoverable"
                 onClick={() => changeScreen(MenuState.CONTINUE)}
             >
                 Continue
-            </button>
+            </button> */}
 
-            <button
+            {/* <button
                 className="w-64 py-4 bg-gray-600 rounded-xl mb-4 hover:bg-gray-500 ui-hoverable"
                 onClick={() => changeScreen(MenuState.SETTINGS)}
             >
                 Settings
-            </button>
+            </button> */}
 
             {/* <FontAwesomeIcon icon={byPrefixAndName.faslr['angle-left']} /> */}
 

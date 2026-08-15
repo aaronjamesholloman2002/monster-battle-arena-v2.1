@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import { player } from "./MainMenu";
 import { getPlayer } from "../store/GameStore";
 import { useEffect, useState } from "react";
 import { MonsterDatabase } from "../core/databases/MonsterDatabase";
@@ -17,10 +16,6 @@ export function AdventureScreen() {
         }
 
     }, [player, navigate]);
-
-    if (!player) {
-        return <p>Loading player...</p>;
-    }
 
     return (
         <div className="min-h-screen bg-slate-900 flex flex-col justify-center items-center">

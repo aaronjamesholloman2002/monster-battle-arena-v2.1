@@ -1,14 +1,17 @@
 import type { Monster } from "../core/entities/Monster";
 import { getPlayer } from "../store/GameStore";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BattleSystem } from "../systems/BatlteSystem";
 import { DemoStages } from "../core/models/DemoStages";
 import { motion } from "framer-motion";
 import type { BattleState } from "../core/batttle/BattleState";
-import type { BattleAction } from "../core/managers/BattleAction";
+import type { BattleAction } from "../core/models/BattleAction";
 import type { BattleMonster } from "../core/batttle/BattleMonster";
 import { createBattleMonster } from "../core/managers/CreateBattleMonster";
+import { createPhaserGame } from "../phaser/game/PhaserGame";
+import { processTurn } from "../core/managers/TurnHandler";
+import { TurnPhase } from "../core/enums/TurnPhase";
 
 const currentStage = DemoStages[4];
 const enemy = currentStage.enemies[0];
@@ -22,6 +25,7 @@ export default function BattleEvent() {
     const [battleEnemyTeam, setBattleEnemyTeam] = useState<BattleMonster[]>([]);
     const [selectedAttacker, setSelectedAttacker] = useState<BattleMonster | null>(null);
     const [selectedTarget, setSelectedTarget] = useState<BattleMonster | null>(null);
+    const phaserContainerRef = useRef<HTMLDivElement | null>(null);
     const [battleActions, setBattleActions] = useState<BattleAction[]>([]);
     // const [battle, setBattle] = useState<BattleState>();
 
@@ -30,6 +34,19 @@ export default function BattleEvent() {
         if (!player) {
             navigate("/");
         }
+
+        if (!phaserContainerRef.current) {
+            return;
+        }
+
+        const game = createPhaserGame(
+            phaserContainerRef.current
+        );
+
+        return () => {
+            game.destroy(true);
+        };
+
         setBattleTeam(player.team.map((monster) => createBattleMonster(monster)));
     }, [player, navigate])
 
@@ -52,6 +69,8 @@ export default function BattleEvent() {
         if (!monster.move) return;
 
         setSelectedAttacker(monster);
+
+        console.log(`Attacker: ${monster.name}`)
     };
 
     const selectTarget = (target: BattleMonster) => {
@@ -61,6 +80,8 @@ export default function BattleEvent() {
         }
 
         setSelectedTarget(target);
+
+        console.log(`Target: ${target.name}`)
     };
 
     const confirmAction = () => {
@@ -73,17 +94,44 @@ export default function BattleEvent() {
             return;
         }
 
-        const action: BattleAction = {
-            attacker: selectedAttacker,
-            target: selectedTarget,
-            move: selectedAttacker.move,
-            order: battleActions.length + 1
-        };
+        BattleSystem.executeMove(
+            selectedAttacker,
+            selectedTarget,
+            selectedAttacker.move
+        );
 
-        setBattleActions(prev => [
-            ...prev,
-            action
-        ]);
+        setBattleTeam(prev =>
+            prev.map(monster =>
+                monster.id === selectedAttacker.id
+                    ? { ...selectedAttacker }
+                    : monster
+            )
+        );
+
+        setBattleEnemyTeam(prev =>
+            prev.map(monster =>
+                monster.id === selectedTarget.id
+                    ? { ...selectedTarget }
+                    : monster
+            )
+        );
+
+        const result = BattleSystem.executeMove(
+            selectedAttacker,
+            selectedTarget,
+            selectedAttacker.move
+        );
+
+        setBattleEnemyTeam(prev =>
+            prev.map(enemy =>
+                enemy.id === selectedTarget.id
+                    ? {
+                        ...enemy,
+                        currentHP: result.hp
+                    }
+                    : enemy
+            )
+        );
 
         setSelectedAttacker(null);
         setSelectedTarget(null);
@@ -92,10 +140,18 @@ export default function BattleEvent() {
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-slate-900">
 
+            {/* <img src="https://img.pokemondb.net/sprites/ruby-sapphire/normal/bulbasaur.png" alt="Bulbasaur" /> */}
+
             {screenState === 0 &&
                 <div className="flex flex-col items-center justify-center">
                     <h1 className="text-6xl text-white font-black">Battle Arena</h1>
 
+                    <div className="p-2 m-2 flex flex-row items-center justify-center">{player.team.map(selectedAttacker =>
+                        <div key={selectedAttacker.id} className="flex flex-col items-center justify-center bg-slate-700 p-3 m-3 rounded-2xl">
+                            <p>{selectedAttacker.speciesIcon}</p>
+                            <p className="text-white font-bold">{selectedAttacker.name}</p>
+                        </div>
+                    )}</div>
                     <button
                         onClick={() => {
                             startBattle()
@@ -109,41 +165,47 @@ export default function BattleEvent() {
 
             {screenState === 1 &&
                 <div className="flex flex-col items-center justify-center">
-                    <div className="text-white text-5xl font-black">{ }Monster's Turn</div>
+                    <div className="text-white text-5xl font-black">Monster's Turn</div>
                     <br />
                     <div className=" flex flex-row items-center justify-center gap-20">
 
-                        {battleTeam.map(monster => (
-                            <div
-                                onClick={() => selectAttacker(monster)}
-                                key={monster.id.toString()}
-                                className="flex flex-col items-center justify-center bg-slate-700 p-2 m-2 hover:bg-slate-500">
-                                <p className="text-6xl bg-white p-2 m-2">{monster.speciesIcon}</p>
-                                <p>{monster.name}</p>
-                                <p>HP: {monster.currentHP}</p>
-                                <div>
-                                    {monster.move?.name}: {monster.move.attackMultiplier}
+                        <div>
+                            {battleTeam.map(monster => (
+                                <div
+                                    onClick={() => selectAttacker(monster)}
+                                    key={monster.id.toString()}
+                                    className="flex flex-row items-center justify-center bg-slate-700 p-3 m-3 hover:bg-slate-500">
+                                    <div className="text-6xl bg-white p-2 m-2">{monster.speciesIcon}</div>
+                                    <div className="flex flex-col">
+                                        <div>{monster.name}</div>
+                                        <div>HP: {monster.currentHP}</div>
+                                        <div>{monster.move?.name}: {monster.move.attackMultiplier}</div>
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
 
-                        {battleEnemyTeam.map(enemy => (
-                            <motion.div
-                                key={enemy.id}
-                                onClick={() => selectTarget(enemy)}
-                                className="flex flex-col items-center justify-center bg-slate-700 p-2 m-2 hover:bg-slate-500"
-                            >
-                                <div className="bg-white text-5xl p-2 m-2">
-                                    {enemy.speciesIcon}
-                                </div>
+                        <div>
+                            {battleEnemyTeam.map(enemy => (
+                                <motion.div
+                                    key={enemy.id}
+                                    onClick={() => selectTarget(enemy)}
+                                    className="flex flex-row items-center justify-center bg-slate-700 p-2 m-2 hover:bg-slate-500"
+                                >
+                                    <div className="bg-white text-5xl p-2 m-2">
+                                        {enemy.speciesIcon}
+                                    </div>
 
-                                <div>{enemy.name}</div>
+                                    <div className=" flex flex-col">
+                                        <div>{enemy.name}</div>
 
-                                <div>
-                                    HP: {enemy.currentHP}
-                                </div>
-                            </motion.div>
-                        ))}
+                                        <div>
+                                            HP: {enemy.currentHP}
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
 
                         {/* <motion.div
                             onClick={() => {
@@ -183,12 +245,40 @@ export default function BattleEvent() {
                     </div>
 
                     <button
-                        onClick={confirmAction}
+                        onClick={() => {
+
+                        }}
                         disabled={!selectedAttacker || !selectedTarget}
-                        className="p-2 m-2 bg-amber-600"
+                        className={`p-2 m-2 bg-amber-500 hover:bg-amber-400 transition disabled:bg-amber-600 disabled:hover:bg-amber-700`}
                     >
-                        Confirm Attack
+                        {selectedAttacker && selectedTarget ? 'Confirm Attack' : 'Processing...'}
                     </button>
+
+                    <div className="text-white m-4">
+
+                        <h2 className="text-2xl font-bold">
+                            Attack Order
+                        </h2>
+
+                        {/* <div
+                            ref={phaserContainerRef}
+                            className="w-full h-full"
+                        /> */}
+
+                        {/* {battleActions.map(action => (
+                            <div
+                                key={action.order}
+                                className="p-2"
+                            >
+                                {action.order}.
+                                {" "}
+                                {action.attacker.name}
+                                {" → "}
+                                {action.target.name}
+                            </div>
+                        ))} */}
+
+                    </div>
                     <button className="text-2xl text-white" onClick={() => navigate(-1)}>Back</button>
                 </div>}
         </div>

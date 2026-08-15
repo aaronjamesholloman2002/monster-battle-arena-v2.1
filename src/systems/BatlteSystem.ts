@@ -5,54 +5,47 @@ import type { Move } from "../core/entities/Move";
 import { Type } from "../core/enums/Type";
 import { TypeChart } from "../core/managers/TypeChart";
 import { addAttrValue } from "framer-motion";
+import type { BattleAction } from "../core/models/BattleAction";
+import type { BattleResult } from "../core/managers/BattleResult";
 
 export class BattleSystem {
 
-    // private static turn: number;
-    // private static damage: number;
-    // private static currHP: number;
-    // private static targetDefense: number;
+    static calculateDamage(
+        attacker: Monster, 
+        defender: Monster, 
+        move: Move): number {
 
-    // static getTurn(): number{
-    //     return this.turn;
-    // }
-    // static setTurn(turn: number){
-    //     this.turn = turn;
-    // }
+        // 1. Get Base Damage Output
+        let damage = attacker.attack * move.attackMultiplier * (100 / (100 + defender.defense));
 
-static calculateDamage(attacker: Monster, defender: Monster, move: Move): number {
-    
-    // 1. Get Base Damage Output
-    let damage = attacker.attack * move.attackMultiplier * (100 / (100 + defender.defense));
+        // 2. Critical Hit Multiplier
+        damage *= this.criticalHit();
 
-    // 2. Critical Hit Multiplier
-    damage *= this.criticalHit();
+        // 3. Type Check / Type Multiplier
+        const multiplier =
+        TypeChart[move.type]?.[defender.type] ?? 1;
 
-    // 3. Type Check / Type Multiplier
-    const multiplier =
-    TypeChart[move.type]?.[defender.type] ?? 1;
-    
-    damage *= multiplier;
+        damage *= multiplier;
 
-    // 4. Similar Type Attack Modifier (STAM / STAB)
-    if (attacker.type === move.type) {
-        damage *= 1.25;
+        // 4. Similar Type Attack Modifier (STAM / STAB)
+        if (attacker.type === move.type) {
+            damage *= 1.25;
+        }
+
+        // 5. Minimum Damage Calculator (Fail Safe)
+        if(damage < 5){
+            damage = (Math.floor(Math.random() * 10) + 5);
+            // damage = Math.max(5, damage);
+        }
+
+        return Math.floor(damage);
     }
-
-    // 5. Minimum Damage Calculator (Fail Safe)
-    if(damage < 5){
-        damage = (Math.floor(Math.random() * 10) + 5);
-        // damage = Math.max(5, damage);
-    }
-    
-    return Math.floor(damage);
-}
 
     static executeMove(
         attacker: Monster,
         defender: Monster,
         move: Move
-    ): number {
+    ): Monster {
     
         const damage = this.calculateDamage(
             attacker,
@@ -62,8 +55,41 @@ static calculateDamage(attacker: Monster, defender: Monster, move: Move): number
     
         this.applyDamage(defender, damage);
     
-        return damage;
+        return {...defender, hp: Math.max(defender.hp - damage)};
     }
+
+    // static executeBattleActions(
+    //     actions: BattleAction[]
+    // ): BattleResult[] {
+
+    //     const results: BattleResult[] = [];
+
+    //     const orderedActions = [...actions]
+    //         .sort((a, b) => a.order - b.order);
+
+    //     for (const action of orderedActions) {
+
+    //         // Dead attacker cannot act
+    //         if (action.attacker.currentHP <= 0) {
+    //             continue;
+    //         }
+
+    //         // Dead target cannot be attacked
+    //         if (action.target.currentHP <= 0) {
+    //             continue;
+    //         }
+
+    //         const result = this.executeMove(
+    //             action.attacker,
+    //             action.target,
+    //             action.move
+    //         );
+
+    //         results.push(result);
+    //     }
+
+    //     return results;
+    // }
 
     static applyDamage(
         defender: Monster,
@@ -90,4 +116,5 @@ static criticalHit():number{
 // }
 
 // static startBattle(){}
+
 }

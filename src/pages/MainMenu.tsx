@@ -6,30 +6,30 @@ import type { Player } from "../core/entities/Player";
 import { Gender } from "../core/enums/Gender";
 import type { Monster } from "../core/entities/Monster";
 import { v4 as uuidv4 } from 'uuid'
+import { getPlayer } from "../store/GameStore";
+import { useEffect } from "react";
 
 interface Props {
 
     changeScreen: (menuState: MenuState) => void;
-
-}
-
-export const player: Player = {
-    id: uuidv4(),
-    name: "James",
-    gender: null,
-    hp: 100,
-    attack: 50,
-    defense: 60,
-    speed: 40,
-    team: [],
-    monsterBox: [],
-    weapons: [],
-    items: []
 }
 
 export function MainMenu({ changeScreen }: Props) {
 
+    const player = getPlayer();
     const navigate = useNavigate();
+
+    useEffect(() => {
+
+        if (!player) {
+            navigate("/");
+        }
+
+    }, [player, navigate]);
+
+    if (!player) {
+        return <p>Loading player...</p>;
+    }
 
     return (
 
@@ -41,9 +41,16 @@ export function MainMenu({ changeScreen }: Props) {
 
             </h1>
 
-            <Card title="Player" children imageAlt="" content={""} isHoverable />
+            {/* <Card title="Player" children imageAlt="" content={""} isHoverable /> */}
 
-            <button
+            <div className="flex flex-col items-center justify-center bg-gray-600 p-3 m-3 border-4 border-gray-800 rounded-xl transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110">
+
+                <div>Id: {player.id}</div>
+                <div>Name: {player.name}</div>
+                <div>Gender: {player.gender}</div>
+            </div>
+
+            {/* <button
                 className="w-64 py-4 m-4 bg-orange-600 rounded-xl mb-4 hover:bg-orange-500 ui-hoverable"
                 onClick={() => {
                     changeScreen(MenuState.ADVENTURE);
@@ -51,6 +58,15 @@ export function MainMenu({ changeScreen }: Props) {
                 }}
             >
                 Adventrue Mode
+            </button> */}
+            <button
+                className="w-64 py-4 m-4 bg-orange-600 rounded-xl mb-4 hover:bg-orange-500 ui-hoverable"
+                onClick={() => {
+                    changeScreen(MenuState.BATTLE)
+                    navigate("/battle-event");
+                }}
+            >
+                Battle Mode
             </button>
 
             <button
