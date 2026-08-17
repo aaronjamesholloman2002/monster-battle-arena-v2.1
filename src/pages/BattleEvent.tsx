@@ -12,22 +12,25 @@ import { createBattleMonster } from "../core/managers/CreateBattleMonster";
 import { createPhaserGame } from "../phaser/game/PhaserGame";
 import { processTurn } from "../core/managers/TurnHandler";
 import { TurnPhase } from "../core/enums/TurnPhase";
+import { BattleEngine } from "../core/entities/BattleEngine";
 
 const currentStage = DemoStages[4];
-const enemy = currentStage.enemies[0];
+// const enemyMon = currentStage.enemies[0];
 
 export default function BattleEvent() {
 
     const player = getPlayer();
     const navigate = useNavigate();
     const [screenState, setScreenState] = useState(0);
+    const [battleMon, setBattleMon] = useState<BattleMonster | null>(null);
     const [battleTeam, setBattleTeam] = useState<BattleMonster[]>([]);
     const [battleEnemyTeam, setBattleEnemyTeam] = useState<BattleMonster[]>([]);
     const [selectedAttacker, setSelectedAttacker] = useState<BattleMonster | null>(null);
     const [selectedTarget, setSelectedTarget] = useState<BattleMonster | null>(null);
     const phaserContainerRef = useRef<HTMLDivElement | null>(null);
+    const battleEngineRef = useRef<BattleEngine | null>(null);
     const [battleActions, setBattleActions] = useState<BattleAction[]>([]);
-    // const [battle, setBattle] = useState<BattleState>();
+    // const battle = new BattleEngine(battleMon, enemyMon);
 
     useEffect(() => {
 
@@ -94,47 +97,78 @@ export default function BattleEvent() {
             return;
         }
 
-        BattleSystem.executeMove(
-            selectedAttacker,
-            selectedTarget,
-            selectedAttacker.move
+        const currentTarget = battleEnemyTeam.find(
+            enemy => enemy.id === selectedTarget.id
         );
 
+        if (!currentTarget) {
+            return;
+        }
+
+        // Create the battle engine
+        const engine = new BattleEngine(
+            selectedAttacker,
+            currentTarget
+        );
+
+        battleEngineRef.current = engine;
+
+        // Enemy chooses its move
+        if (!currentTarget.move) {
+            return;
+        }
+
+        // Execute the entire turn
+        const battleOver = engine.playTurn(
+            selectedAttacker.move,
+            currentTarget.move
+        );
+
+        // Get updated monsters
+        const updatedPlayer = engine.getPlayer();
+        const updatedEnemy = engine.getOpponent();
+
+        console.log("Updated Player:", updatedPlayer);
+        console.log("Updated Enemy:", updatedEnemy);
+
+        // Update React state
         setBattleTeam(prev =>
             prev.map(monster =>
-                monster.id === selectedAttacker.id
-                    ? { ...selectedAttacker }
+                monster.id === updatedPlayer.id
+                    ? updatedPlayer
                     : monster
             )
-        );
-
-        setBattleEnemyTeam(prev =>
-            prev.map(monster =>
-                monster.id === selectedTarget.id
-                    ? { ...selectedTarget }
-                    : monster
-            )
-        );
-
-        const result = BattleSystem.executeMove(
-            selectedAttacker,
-            selectedTarget,
-            selectedAttacker.move
         );
 
         setBattleEnemyTeam(prev =>
             prev.map(enemy =>
-                enemy.id === selectedTarget.id
-                    ? {
-                        ...enemy,
-                        currentHP: result.hp
-                    }
+                enemy.id === updatedEnemy.id
+                    ? updatedEnemy
                     : enemy
             )
         );
 
+        // Print battle log
+        console.log(engine.getLog());
+
+        // Clear selections
         setSelectedAttacker(null);
         setSelectedTarget(null);
+
+        if (battleOver) {
+
+            if (updatedPlayer.currentHp <= 0) {
+                console.log("PLAYER LOST");
+            }
+
+            if (updatedEnemy.currentHp <= 0) {
+                console.log("ENEMY DEFEATED");
+            }
+
+            return;
+        }
+
+        console.log("TURN COMPLETE");
     };
 
     return (
@@ -178,7 +212,7 @@ export default function BattleEvent() {
                                     <div className="text-6xl bg-white p-2 m-2">{monster.speciesIcon}</div>
                                     <div className="flex flex-col">
                                         <div>{monster.name}</div>
-                                        <div>HP: {monster.currentHP}</div>
+                                        <div>HP: {monster.currentHp}</div>
                                         <div>{monster.move?.name}: {monster.move.attackMultiplier}</div>
                                     </div>
                                 </div>
@@ -200,7 +234,7 @@ export default function BattleEvent() {
                                         <div>{enemy.name}</div>
 
                                         <div>
-                                            HP: {enemy.currentHP}
+                                            HP: {enemy.currentHp}
                                         </div>
                                     </div>
                                 </motion.div>
@@ -245,9 +279,7 @@ export default function BattleEvent() {
                     </div>
 
                     <button
-                        onClick={() => {
-
-                        }}
+                        onClick={confirmAction}
                         disabled={!selectedAttacker || !selectedTarget}
                         className={`p-2 m-2 bg-amber-500 hover:bg-amber-400 transition disabled:bg-amber-600 disabled:hover:bg-amber-700`}
                     >
@@ -265,7 +297,7 @@ export default function BattleEvent() {
                             className="w-full h-full"
                         /> */}
 
-                        {/* {battleActions.map(action => (
+                        {battleActions.map(action => (
                             <div
                                 key={action.order}
                                 className="p-2"
@@ -276,7 +308,7 @@ export default function BattleEvent() {
                                 {" → "}
                                 {action.target.name}
                             </div>
-                        ))} */}
+                        ))}
 
                     </div>
                     <button className="text-2xl text-white" onClick={() => navigate(-1)}>Back</button>

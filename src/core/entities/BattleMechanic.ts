@@ -1,16 +1,7 @@
 export interface BattleMechanic {
     id: string,
-    transformedName: string,
-    // transformedClass: Classes,
-    // transformedType: Types,
-    transformedSuperAttack: string,
-    transformedEZASuperAttack?: string,
-    transformedUltraSuperAttack?: string,
-    transformedEZAUltraSuperAttack?: string,
-    transformedPassive: string,
-    transformedEZAPassive?: string,
-    transformedActiveSkill?: string,
-    transformedActiveSkillCondition?: string,
-    transformedLinks:string[],
-    transformedImageURL: string,
+    name: string,
+    description: string,
+    condition: string,
 }
+

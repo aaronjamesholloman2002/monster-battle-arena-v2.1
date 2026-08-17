@@ -9,6 +9,8 @@ export class MonsterFactory {
 
         const template = MonsterDatabase[speciesID];
 
+        console.log("MONSTER DATABASE TEMPLATE:", template);
+
         if (!template) {
             throw new Error(`Monster with ID ${speciesID} not found.`);
         }

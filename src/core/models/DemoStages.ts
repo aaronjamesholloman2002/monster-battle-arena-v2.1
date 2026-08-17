@@ -1,48 +1,53 @@
+import type { BattleMonster } from "../batttle/BattleMonster";
 import type { Monster } from "../entities/Monster";
+import { createBattleMonster } from "../managers/CreateBattleMonster";
 import { MonsterFactory } from "../managers/MonsterFactory";
 
 export interface BattleStage {
-    id: number;
+    id: string;
     name: string;
-    enemies: Monster[];
+    // enemyIDs: string[];
+    enemies: BattleMonster[];
 }
 
 export const DemoStages: BattleStage[] = [
     {
-        id: 1,
+        id: "01",
         name: "Plains",
+        // enemyIDs: ["0004", "0006"]
         enemies: [
-            MonsterFactory.create("0004"),
-            MonsterFactory.create("0006"),
+            createBattleMonster(MonsterFactory.create("0004")),
+            createBattleMonster(MonsterFactory.create("0006"))
         ],
     },
     {
-        id: 2,
+        id: "02",
         name: "Beach",
         enemies: [
-            MonsterFactory.create("0005"),
+            createBattleMonster(MonsterFactory.create("0005")),
         ],
     },
     {
-        id: 3,
+        id: "03",
         name: "Desert",
         enemies: [
-            MonsterFactory.create("0008"),
+            createBattleMonster(MonsterFactory.create("0007")),
+            createBattleMonster(MonsterFactory.create("0008"))
         ],
     },
     {
-        id: 4,
+        id: "04",
         name: "Frost Peaks",
         enemies: [
-            MonsterFactory.create("0007"),
-            MonsterFactory.create("0011"),
+            createBattleMonster(MonsterFactory.create("0009")),
+            createBattleMonster(MonsterFactory.create("0011"))
         ],
     },
     {
-        id: 5,
+        id: "05",
         name: "Fire Pit",
         enemies: [
-            MonsterFactory.create("0012"),
+            createBattleMonster(MonsterFactory.create("0012"))
         ],
     },
 ];

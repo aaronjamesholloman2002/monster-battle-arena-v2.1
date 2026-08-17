@@ -50,7 +50,7 @@ export function MainMenu({ changeScreen }: Props) {
                 <div>Gender: {player.gender}</div>
             </div>
 
-            {/* <button
+            <button
                 className="w-64 py-4 m-4 bg-orange-600 rounded-xl mb-4 hover:bg-orange-500 ui-hoverable"
                 onClick={() => {
                     changeScreen(MenuState.ADVENTURE);
@@ -58,7 +58,7 @@ export function MainMenu({ changeScreen }: Props) {
                 }}
             >
                 Adventrue Mode
-            </button> */}
+            </button>
             <button
                 className="w-64 py-4 m-4 bg-orange-600 rounded-xl mb-4 hover:bg-orange-500 ui-hoverable"
                 onClick={() => {

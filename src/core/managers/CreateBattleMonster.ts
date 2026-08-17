@@ -5,8 +5,6 @@ import { v4 as uuidv4 } from 'uuid';
 export function createBattleMonster(monster: Monster): BattleMonster {
     return {
         // BattleMonster Template Initiated off of a Monster Instance
-        template: monster,
-
         // Monster
         id: monster.id,
         level: monster.level,
@@ -29,7 +27,8 @@ export function createBattleMonster(monster: Monster): BattleMonster {
         passives: monster.passives,
         
         // BattleMonster
-        currentHP: monster.hp,
+        currentHp: monster.hp,
+        maxHp: monster.hp,
         attackStage: 0,
         defenseStage: 0,
         speedStage: 0,

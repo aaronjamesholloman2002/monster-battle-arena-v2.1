@@ -1,8 +1,8 @@
 import type { Monster, MonsterTemplate } from "../entities/Monster";
 
 export interface BattleMonster extends Monster {
-    template: Monster;
-    currentHP: number,
+    currentHp: number,
+    maxHp: number,
     attackStage: number,
     defenseStage: number,
     speedStage: number,

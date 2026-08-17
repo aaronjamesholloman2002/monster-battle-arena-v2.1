@@ -1,18 +1,30 @@
-import React from "react";
-import type { Player } from "../core/entities/Player";
 import type { Monster } from "../core/entities/Monster";
 import type { Move } from "../core/entities/Move";
-import { Type } from "../core/enums/Type";
 import { TypeChart } from "../core/managers/TypeChart";
-import { addAttrValue } from "framer-motion";
-import type { BattleAction } from "../core/models/BattleAction";
-import type { BattleResult } from "../core/managers/BattleResult";
+import type { BattleMonster } from "../core/batttle/BattleMonster";
 
 export class BattleSystem {
 
+    static createBattleMonster(monster: Monster): BattleMonster {
+
+        return {
+            ...monster,
+            currentHp: monster.hp,
+            maxHp: monster.hp,
+
+            attackStage: 0,
+            defenseStage: 0,
+            speedStage: 0,
+            accuracyStage: 0,
+            evasionStage: 0,
+
+            statusEffects: [],
+            };
+    }
+
     static calculateDamage(
-        attacker: Monster, 
-        defender: Monster, 
+        attacker: BattleMonster, 
+        defender: BattleMonster, 
         move: Move): number {
 
         // 1. Get Base Damage Output
@@ -42,10 +54,10 @@ export class BattleSystem {
     }
 
     static executeMove(
-        attacker: Monster,
-        defender: Monster,
+        attacker: BattleMonster,
+        defender: BattleMonster,
         move: Move
-    ): Monster {
+    ): BattleMonster {
     
         const damage = this.calculateDamage(
             attacker,
@@ -53,10 +65,46 @@ export class BattleSystem {
             move
         );
     
-        this.applyDamage(defender, damage);
+        console.log("========== BATTLE DEBUG ==========");
+        console.log("Defender:", defender);
+        console.log("Defender name:", defender.name);
+        console.log("Defender HP:", defender.currentHp);
+        console.log("Defender max HP:", defender.maxHp);
+        console.log("Damage:", damage);
+        console.log(
+            "Is currentHp a number?",
+            typeof defender.currentHp === "number"
+        );
+        console.log(
+            "Is currentHp NaN?",
+            Number.isNaN(defender.currentHp)
+        );
+        console.log("==================================");
     
-        return {...defender, hp: Math.max(defender.hp - damage)};
+        const newHP = defender.currentHp - damage;
+    
+        console.log("Calculated new HP:", newHP);
+    
+        const updatedDefender: BattleMonster = {
+            ...defender,
+            currentHp: Math.max(0, newHP)
+        };
+    
+        console.log(`${attacker.name} dealt ${damage} damage.`);
+        console.log(`${updatedDefender.name} HP: ${updatedDefender.currentHp}`);
+    
+        return updatedDefender;
     }
+
+//     const stage = DemoStages.find(stage => stage.id === stageId);
+
+// if (!stage) {
+//     throw new Error(`Stage ${stageId} not found.`);
+// }
+
+// const enemies = stage.enemyIds.map(id =>
+//     BattleMonsterFactory.create(id)
+// );
 
     // static executeBattleActions(
     //     actions: BattleAction[]
@@ -92,13 +140,13 @@ export class BattleSystem {
     // }
 
     static applyDamage(
-        defender: Monster,
+        defender: BattleMonster,
         damage: number
     ) {
     
-        defender.hp = Math.max(
+        defender.currentHp = Math.max(
             0,
-            defender.hp - damage
+            defender.currentHp - damage
         );
     
     }
