@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { MonsterDatabase } from "../core/databases/MonsterDatabase";
 import { PathSystem, rollPathwayEvent, type PathwayChoice, type PathwayNode } from "../systems/PathSystem";
 import { Outcome } from "../core/enums/Outcome";
+import type { BattleMonster } from "../core/batttle/BattleMonster";
 
 export function AdventureScreen() {
 
@@ -11,6 +12,8 @@ export function AdventureScreen() {
     const navigate = useNavigate();
     const [isDisabled] = useState<boolean>(false);
     const [currentNode, setCurrentNode] = useState<PathwayNode | null>(null);
+    const [enemy, setEnemy] = useState<BattleMonster | null>(null);
+    const [enemies, setEnemies] = useState<BattleMonster[]>([]);
     const [outcome, setOutcome] = useState<Outcome | null>(null);
 
     useEffect(() => {
@@ -46,6 +49,7 @@ export function AdventureScreen() {
 
             case Outcome.ENEMY_APPEAR:
                 // Start battle
+
                 break;
         }
     };
@@ -66,6 +70,8 @@ export function AdventureScreen() {
     return (
         <div className="min-h-screen bg-slate-900 flex flex-col justify-center items-center">
             <h1 className="text-6xl text-white font-black p-2 m-2">Andventure Mode</h1>
+
+            {enemy && <div></div>}
 
             {currentNode && (
                 <div>

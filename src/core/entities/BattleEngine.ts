@@ -6,15 +6,18 @@ export class BattleEngine {
 
     private playerMon: BattleMonster;
     private opponent: BattleMonster;
+    private turn: number;
 
     private log: string[] = [];
 
     constructor(
         playerMon: BattleMonster,
-        opponent: BattleMonster
+        opponent: BattleMonster,
+        turn: number
     ) {
         this.playerMon = playerMon;
         this.opponent = opponent;
+        this.turn = turn;
     }
 
     public getPlayer(): BattleMonster {
@@ -27,6 +30,10 @@ export class BattleEngine {
 
     public getLog(): string[] {
         return this.log;
+    }
+
+    public getTurn(): number{
+        return this.turn;
     }
 
     public playTurn(
@@ -122,6 +129,10 @@ export class BattleEngine {
         }
     }
 
+    public addNewTurn(turn: number):number{
+        turn += 1;
+        return turn;
+    }
 
     public isBattleOver(): boolean {
 

@@ -1,30 +1,10 @@
-
-import { Card } from "../components/Card";
 import { useNavigate } from "react-router-dom";
 import { MenuState } from "../core/enums/MenuState";
-import type { Player } from "../core/entities/Player";
-import { Gender } from "../core/enums/Gender";
-import type { Monster } from "../core/entities/Monster";
-import { v4 as uuidv4 } from 'uuid';
 
 interface Props {
 
     changeScreen: (menuState: MenuState) => void;
 
-}
-
-const player: Player = {
-    id: uuidv4(),
-    name: "James",
-    gender: null,
-    hp: 100,
-    attack: 50,
-    defense: 60,
-    speed: 40,
-    team: [],
-    monsterBox: [],
-    weapons: [],
-    items: []
 }
 
 export function TitleScreen({ changeScreen }: Props) {
@@ -37,7 +17,7 @@ export function TitleScreen({ changeScreen }: Props) {
 
             <h1 className="text-6xl font-bold text-green-400 mb-10">
 
-                Project Dragon Claw
+                Project Dragon Fang
 
             </h1>
 

@@ -1,17 +1,12 @@
-import type { Monster } from "../core/entities/Monster";
 import { getPlayer } from "../store/GameStore";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import { BattleSystem } from "../systems/BatlteSystem";
 import { DemoStages } from "../core/models/DemoStages";
 import { motion } from "framer-motion";
-import type { BattleState } from "../core/batttle/BattleState";
 import type { BattleAction } from "../core/models/BattleAction";
 import type { BattleMonster } from "../core/batttle/BattleMonster";
 import { createBattleMonster } from "../core/managers/CreateBattleMonster";
 import { createPhaserGame } from "../phaser/game/PhaserGame";
-import { processTurn } from "../core/managers/TurnHandler";
-import { TurnPhase } from "../core/enums/TurnPhase";
 import { BattleEngine } from "../core/entities/BattleEngine";
 
 const currentStage = DemoStages[4];
@@ -22,7 +17,7 @@ export default function BattleEvent() {
     const player = getPlayer();
     const navigate = useNavigate();
     const [screenState, setScreenState] = useState(0);
-    const [battleMon, setBattleMon] = useState<BattleMonster | null>(null);
+    const [turnNumber, setTurnNumber] = useState(0);
     const [battleTeam, setBattleTeam] = useState<BattleMonster[]>([]);
     const [battleEnemyTeam, setBattleEnemyTeam] = useState<BattleMonster[]>([]);
     const [selectedAttacker, setSelectedAttacker] = useState<BattleMonster | null>(null);
@@ -108,7 +103,8 @@ export default function BattleEvent() {
         // Create the battle engine
         const engine = new BattleEngine(
             selectedAttacker,
-            currentTarget
+            currentTarget,
+            turnNumber
         );
 
         battleEngineRef.current = engine;
@@ -292,11 +288,6 @@ export default function BattleEvent() {
                             Attack Order
                         </h2>
 
-                        {/* <div
-                            ref={phaserContainerRef}
-                            className="w-full h-full"
-                        /> */}
-
                         {battleActions.map(action => (
                             <div
                                 key={action.order}
@@ -313,6 +304,11 @@ export default function BattleEvent() {
                     </div>
                     <button className="text-2xl text-white" onClick={() => navigate(-1)}>Back</button>
                 </div>}
+
+            {/* <div
+                ref={phaserContainerRef}
+                className="w-full h-full flex flex-col items-center justify-center"
+            /> */}
         </div>
     );
 }

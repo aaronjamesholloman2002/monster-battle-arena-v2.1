@@ -1,11 +1,6 @@
 
-import { Card } from "../components/Card";
 import { useNavigate } from "react-router-dom";
 import { MenuState } from "../core/enums/MenuState";
-import type { Player } from "../core/entities/Player";
-import { Gender } from "../core/enums/Gender";
-import type { Monster } from "../core/entities/Monster";
-import { v4 as uuidv4 } from 'uuid'
 import { getPlayer } from "../store/GameStore";
 import { useEffect } from "react";
 
@@ -37,13 +32,15 @@ export function MainMenu({ changeScreen }: Props) {
 
             <h1 className="text-6xl font-bold text-green-400 mb-10">
 
-                Project Dragon Claw
+                Project Dragon Fang
 
             </h1>
 
             {/* <Card title="Player" children imageAlt="" content={""} isHoverable /> */}
 
-            <div className="flex flex-col items-center justify-center bg-gray-600 p-3 m-3 border-4 border-gray-800 rounded-xl transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110">
+            <div
+                // onClick={() => }
+                className="flex flex-col items-center justify-center bg-gray-600 p-3 m-3 border-4 border-gray-800 rounded-xl transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110">
 
                 <div>Id: {player.id}</div>
                 <div>Name: {player.name}</div>

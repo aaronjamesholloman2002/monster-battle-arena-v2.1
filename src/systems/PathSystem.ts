@@ -1,4 +1,5 @@
 import { Outcome } from "../core/enums/Outcome";
+import {v4 as uuidv4} from "uuid";
 
 export interface PathwayChoice{
     id: string;
@@ -63,15 +64,15 @@ export class PathSystem{
     static generateNode(): PathwayNode {
 
         return {
-            id: crypto.randomUUID(),
+            id: uuidv4(),
     
             leftPath: {
-                id: crypto.randomUUID(),
+                id: uuidv4(),
                 label: "Left Path"
             },
     
             rightPath: {
-                id: crypto.randomUUID(),
+                id: uuidv4(),
                 label: "Right Path"
             }
         };
