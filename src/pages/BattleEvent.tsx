@@ -8,6 +8,8 @@ import type { BattleMonster } from "../core/batttle/BattleMonster";
 import { createBattleMonster } from "../core/managers/CreateBattleMonster";
 import { createPhaserGame } from "../phaser/game/PhaserGame";
 import { BattleEngine } from "../core/entities/BattleEngine";
+import { startGame } from "../core/batttle/GameGrid";
+import "../styles/global.css"
 
 const currentStage = DemoStages[4];
 // const enemyMon = currentStage.enemies[0];
@@ -185,6 +187,7 @@ export default function BattleEvent() {
                     <button
                         onClick={() => {
                             startBattle()
+                            startGame()
                         }}
                         className="p-2 m-2 text-white bg-blue-300 rounded"
                     >Start Battle</button>
@@ -236,7 +239,6 @@ export default function BattleEvent() {
                                 </motion.div>
                             ))}
                         </div>
-
                         {/* <motion.div
                             onClick={() => {
                                 if (!selectedAttacker) return;
@@ -304,6 +306,9 @@ export default function BattleEvent() {
                     </div>
                     <button className="text-2xl text-white" onClick={() => navigate(-1)}>Back</button>
                 </div>}
+
+            <div className="grid-container"></div>
+            <button onClick={() => startGame()}>New Game</button>
 
             {/* <div
                 ref={phaserContainerRef}
