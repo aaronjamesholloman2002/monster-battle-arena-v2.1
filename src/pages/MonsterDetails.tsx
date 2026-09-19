@@ -30,11 +30,11 @@ export default function MonsterDetails() {
 
     return (
 
-        <div className="min-h-screen bg-slate-900 flex flex-col justify-center items-center">
+        <div className="flex flex-col items-center justify-center min-h-screen bg-slate-900">
 
-            <div className="mt-6 p-6 bg-slate-800 rounded-xl text-white w-96">
+            <div className="p-6 mt-6 text-white bg-slate-800 rounded-xl w-96">
                 <div className="flex flex-col items-center justify-center">
-                    <h1 className="text-6xl bg-white p-2 m-2 rounded-2xl">
+                    <h1 className="p-2 m-2 text-6xl bg-white rounded-2xl">
                         {selectedMonster.speciesIcon}
                     </h1>
 
@@ -72,31 +72,42 @@ export default function MonsterDetails() {
                     Speed: {selectedMonster.speed}
                 </p>
 
+                <p>
+                    Move(s): {selectedMonster.move.name}
+                </p>
+
                 <h3 className="mt-4 font-bold">
-                    Passives
+                    Passives:
                 </h3>
 
-                {selectedMonster.passives.map(passive => (
+                <div>{selectedMonster.passives.map(passive => (
+                    <p>{passive.toString()}</p>
+                ))}</div>
 
-                    <div key={passive.name}>
+                {/* {selectedMonster.passives.map(passive => (
 
-                        <p>
-                            Name: {passive.name}
-                        </p>
+                    <div key={passive.getName()}>
 
-                        <p>
-                            Effect: {passive.effect}
-                        </p>
+                        <div>
+                            {passive.toString()}
+
+                            {passive.getEffect().map((passiveEffect, index) =>
+                                <div key={passiveEffect.id || index}>
+                                    {passiveEffect.buffType}
+                                </div>
+                            )}
+
+                        </div>
 
                     </div>
 
-                ))}
+                ))} */}
 
             </div>
 
 
             <button
-                className="text-white text-2xl mt-4"
+                className="mt-4 text-2xl text-white"
                 onClick={() => navigate(-1)}
             >
                 Back

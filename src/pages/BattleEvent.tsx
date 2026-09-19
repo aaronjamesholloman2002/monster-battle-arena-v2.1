@@ -165,9 +165,16 @@ export default function BattleEvent() {
 
             return;
         }
-
-        console.log("TURN COMPLETE");
     };
+
+    console.log("TURN COMPLETE");
+
+    const checkTeam = () => {
+        if (player.team.length <= 0 || player.team == null) {
+            alert("⚠️⚠️ TERRAIN IS TOO DANGEROUS!!! You must obtain a monster and add it to your team to continue! ⚠️⚠️")
+            navigate("/main-menu");
+        }
+    }
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-slate-900">
@@ -186,6 +193,7 @@ export default function BattleEvent() {
                     )}</div>
                     <button
                         onClick={() => {
+                            checkTeam()
                             startBattle()
                             startGame()
                         }}
@@ -307,8 +315,8 @@ export default function BattleEvent() {
                     <button className="text-2xl text-white" onClick={() => navigate(-1)}>Back</button>
                 </div>}
 
-            <div className="grid-container"></div>
-            <button onClick={() => startGame()}>New Game</button>
+            {/* <div className="grid-container"></div> */}
+            {/* <button onClick={() => startGame()}>New Game</button> */}
 
             {/* <div
                 ref={phaserContainerRef}

@@ -1,6 +1,9 @@
 export enum TurnPhase {
 
-    PLAYERTURN = "Player's Turn",
-    ENEMYTURN = "Enemy's Turn"
-
+    TURN_START = "Starting Turn",
+    PLAYER_ATTACK = "Player's Turn",
+    ENEMY_ATTACK = "Enemy's Turn",
+    PLAYER_COUNTER = "Player Countering",
+    ENEMY_COUNTER = "Enemy Countering",
+    TURN_END = "Ending Turn"
 }

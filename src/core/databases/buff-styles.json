@@ -1,0 +1,28 @@
+{
+    "REVENGE_FURRY": {
+      "name": "Revenge Furry",
+      "effects": [
+        {
+          "id": 101,
+          "condition": { "triggerType": "AFTER_RECEIVING_HIT", "requirements": { "turnDuration": 4 } },
+          "modifiers": [
+            { "buffType": "ATK", "phase": "ON_ACTION", "baseAmount": 50 },
+            { "buffType": "DEF", "phase": "ON_ACTION", "baseAmount": 50 }
+          ]
+        }
+      ]
+    },
+    "REGEN_BOOST": {
+        "name": "Revenge Furry",
+        "effects": [
+          {
+            "id": 101,
+            "condition": { "triggerType": "AFTER_RECEIVING_HIT", "requirements": { "turnDuration": 4 } },
+            "modifiers": [
+              { "buffType": "ATK", "phase": "ON_ACTION", "baseAmount": 50 },
+              { "buffType": "DEF", "phase": "ON_ACTION", "baseAmount": 50 }
+            ]
+          }
+        ]
+      }
+  }

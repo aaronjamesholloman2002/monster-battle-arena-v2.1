@@ -7,13 +7,19 @@ export interface Move {
 
     name: string;
 
+    description: string;
+
     type: Type;
+
+    power: number;
+
+    accuracy: number;
 
     moveCategory: MoveCategory;
 
     animationKey: string,
 
-    attackMultiplier: number;
+    attackMultiplier?: number;
 
     cooldown: number;
 

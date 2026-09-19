@@ -27,7 +27,6 @@ export function MainMenu({ changeScreen }: Props) {
     }
 
     return (
-
         <div className="min-h-screen bg-slate-900 flex flex-col justify-center items-center" >
 
             <h1 className="text-6xl font-bold text-green-400 mb-10">
