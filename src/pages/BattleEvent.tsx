@@ -154,7 +154,6 @@ export default function BattleEvent() {
         setSelectedTarget(null);
 
         if (battleOver) {
-
             if (updatedPlayer.currentHp <= 0) {
                 console.log("PLAYER LOST");
             }
@@ -162,7 +161,6 @@ export default function BattleEvent() {
             if (updatedEnemy.currentHp <= 0) {
                 console.log("ENEMY DEFEATED");
             }
-
             return;
         }
     };

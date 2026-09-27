@@ -1,13 +1,12 @@
-import type { TriggerType } from "../enums/TriggerType";
 import type { BattleMonster } from "../batttle/BattleMonster";
 
 export enum PassiveBuffType {
-  HEALTH = "HP",
-  ATTACK = "ATK",
-  DEFENSE = "DEF",
-  SPEED = "SPD",
-  ACCURACY = "ACC",
-  EVASION = "EVA",
+  HEALTH = "Hp",
+  ATTACK = "Atk",
+  DEFENSE = "Def",
+  SPEED = "Sp",
+  ACCURACY = "Acc",
+  EVASION = "Ev",
   DAMAGE_REDUCTION = "Damage Reduction" // Dokkan frequently uses damage reduction %
 }
 
@@ -18,14 +17,34 @@ export enum ModifierType{
   PERCENT = "%"
 }
 
+export enum Action {
+  ATTACK = "performing an attack",
+  SUPER_ATTACK = "performing a Super Attack",
+  ULTIMATE_ATTACK = "performing an Ultra Super Attack",
+  DODGE = "evading an attack"
+}
+
 export enum CalculationPhase {
-  START_OF_TURN = 0,   // e.g., "ATK & DEF +150% at start of turn"
-  ON_ACTION = 1,       // e.g., "plus an additional ATK +50% when performing a Super Attack"
-  DYNAMIC_STACK = 2   // e.g., "+10% DEF per attack received (up to 50%)"
+  START_OF_TURN = "at the start of turn",
+  START_OF_EACH_TURN = "at the start of each turn",
+  START_OF_BATTLE = "at the start of battle",   // e.g., "ATK & DEF +150% at start of turn"
+  END_OF_TURN = "at the end of turn",
+  END_OF_BATTLE = "at the end of battle",
+  END_OF_EVERY_TURN = "at the end of each turn",
+  DURING_ATTACKING_TURN = "during the creature's attacking turn",
+  AFTER_FINAL_BLOW = "when delivering the final blow",
+}
+
+export enum TriggerType {
+  ON_TURN_START = "at the start of turn",
+  ON_BATTLE_START = "at the start of battle",
+  ON_DAMAGE_TAKEN = "On Damage Taken",
+  ON_ATTACK_PERFORMED = "after performing an attack",
+  ON_ATTACK_RECEIVED = "after receiving an attack"
 }
 
 export interface Condition {
-  triggerType?: string;      // e.g., "START_OF_TURN", "BEFORE_ATTACK", "AFTER_RECEIVING_HIT"
+  triggerType?: TriggerType;      // e.g., "START_OF_TURN", "BEFORE_ATTACK", "AFTER_RECEIVING_HIT"
   requirements?: {
     hpBelow?: number;       // e.g., "when HP is 50% or less"
     turnCount?: number;
@@ -36,8 +55,10 @@ export interface Condition {
 export interface BuffModifier {
   buffType: PassiveBuffType;
   modifierType?: ModifierType;
-  phase: CalculationPhase;
-  baseAmount: number;       // e.g., 150 for +150%
+  phase?: CalculationPhase;
+  action?: Action;
+  baseAmount?: number;       // e.g., 150 for +150%
+  isPercent: boolean;
   
   // Stacking Mechanics (e.g., "+10% per hit, up to 50%")
   stackAmount?: number;
@@ -54,7 +75,7 @@ export class PassiveSkill {
   private name: string;
   private effects: PassiveSkillEffect[];
 
-  public constructor(name: string , effects: PassiveSkillEffect[]) {
+  public constructor(name: string, effects: PassiveSkillEffect[]) {
     this.name = name;
     this.effects = effects;
   }
@@ -62,61 +83,95 @@ export class PassiveSkill {
   public getName(): string {return this.name;}
   public getEffect(): PassiveSkillEffect[]{return this.effects;}
 
-  public toString(){
-    return this.name + " - " + this.effects.map(effect => effect.modifiers.map(modifyer => modifyer.buffType));
-  }
-  // public setEffect(effects: PassiveSkillEffect[]) {this.effects = effects;}
+  public toString(): string {
+    const formattedEffects = this.effects
+      .map(effect => this.formatEffect(effect))
+      .filter(text => text.length > 0);
 
-  // public evaluateTriggers(trigger: string, context: { currentHpPercent?: number, turn?: number }) {
-  //   for (const effect of this.effects) {
-  //     const { condition, modifiers } = effect;
-      
-  //     if (condition.triggerType !== trigger) continue;
-
-  //     // Validate conditional rules
-  //     if (condition.requirements?.hpBelow && context.currentHpPercent && context.currentHpPercent > condition.requirements.hpBelow) continue;
-  //     if (condition.requirements?.turnCount && context.turn && context.turn < condition.requirements.turnCount) continue;
-
-  //     // Advance dynamic stacking modifiers
-  //     for (const mod of modifiers) {
-  //       if (mod.stackAmount && mod.maxStackLimit) {
-  //         mod.currentStacks = Math.min(
-  //           (mod.currentStacks || 0) + 1,
-  //           mod.maxStackLimit
-  //         );
-  //       }
-  //     }
-  //   }
-  // }
-
-  public formatModifierString(mod: BuffModifier, result: string): string {
-    
-    let buffType: string = `${mod.buffType}`;
-    let baseAmount: String = `${mod.baseAmount}`;
-    
-    switch (mod.modifierType) {
-      case ModifierType.ADD:
-        // Flat value additions rule layer
-        return `${mod.buffType} +${mod.baseAmount}`;
-      
-      case ModifierType.SUBTRACT:
-          // Debuff tracking: checks if percentage or flat, attaches negative operator symbol
-          return `${mod.buffType} -${mod.baseAmount}%`;
-        
-      case ModifierType.MULTIPLY:
-          // Multiplicative phase representation layout rules
-          return `${mod.buffType} x${mod.baseAmount}`;
-          
-      case ModifierType.PERCENT:
-          // Standard Dokkan style calculation output Layout
-          // return `${mod.buffType} +${mod.baseAmount}%`;
-          // result = buffType + baseAmount.join("");
-          
-      default:
-        return;
+    if (formattedEffects.length === 0) {
+      return this.name;
     }
 
-    return result;
+    return `${this.name}: ${formattedEffects.join("; ")}`;
+  }
+  
+  public formatModifier(mod: BuffModifier): string {
+    const parts: string[] = [];
+
+    // Buff target
+    parts.push(mod.buffType);
+
+    // Operator and amount
+    if (mod.isPercent) {
+      parts.push(`+${mod.baseAmount}%`);
+    } else {
+      parts.push(`+${mod.baseAmount}`);
+    }
+
+    // Phase (e.g., "at the start of turn")
+    if (mod.phase) {
+      parts.push(mod.phase);
+    }
+
+    // Stacking mechanics
+    if (mod.stackAmount) {
+      let stackText;
+      mod.modifierType ?? ModifierType.ADD;
+      if(mod.isPercent == true){
+        stackText = `+${mod.stackAmount}% per attack recieved`;
+      }else{
+        stackText = `+${mod.stackAmount} per attack reieved`;
+      }
+      if (mod.maxStackLimit) {
+        stackText += ` ( up to ${mod.maxStackLimit} )`;
+      }
+      if (mod.currentStacks !== undefined) {
+        stackText += ` | current: ${mod.currentStacks}`;
+      }
+      parts.push(stackText);
+    }
+
+    return parts.join(" ");
   }
 
+
+  public formatCondition(condition?: Condition): string | null {
+    if (!condition) return null;
+
+    const clauses: string[] = [];
+
+    if (condition.triggerType) {
+      clauses.push(condition.triggerType);
+    }
+
+    if (condition.requirements) {
+      const { hpBelow, turnCount } = condition.requirements;
+      if (hpBelow !== undefined) {
+        clauses.push(`when HP is below ${hpBelow}%`);
+      }
+      if (turnCount !== undefined) {
+        clauses.push(`starting from turn ${turnCount}`);
+      }
+    }
+
+    return clauses.length > 0 ? clauses.join(" ") : null;
+  }
+
+  public formatEffect(effect: PassiveSkillEffect): string {
+    const segments: string[] = [];
+
+    // 1. Condition/Trigger prefix
+    const conditionText = this.formatCondition(effect.condition);
+    if (conditionText) {
+      segments.push(`${conditionText}`);
+    }
+
+    // 2. Modifiers
+    if (effect.modifiers && effect.modifiers.length > 0) {
+      const modStrings = effect.modifiers.map(mod => this.formatModifier(mod));
+      segments.push(modStrings.join(", "));
+    }
+
+    return segments.join(": ");
+  }
 }

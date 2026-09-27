@@ -56,7 +56,7 @@ export const MonsterDatabase: Record<string, MonsterTemplate> = {
         accuracy: 0,
         evasion: 0,
         move: beakDance,
-        passives: [revengeFury]
+        passives: [revengeFury, regenBoost]
     },
     "0004": {
         speciesID: "0004",

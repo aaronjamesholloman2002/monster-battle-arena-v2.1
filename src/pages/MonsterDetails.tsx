@@ -77,7 +77,7 @@ export default function MonsterDetails() {
                 </p>
 
                 <h3 className="mt-4 font-bold">
-                    Passives:
+                    Passives
                 </h3>
 
                 <div>{selectedMonster.passives.map(passive => (
