@@ -1,5 +1,6 @@
 export enum TurnPhase {
 
+    TURN_RESET = "Turn Order Restarting",
     TURN_START = "Starting Turn",
     PLAYER_ATTACK = "Player's Turn",
     ENEMY_ATTACK = "Enemy's Turn",

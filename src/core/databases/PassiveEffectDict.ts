@@ -3,7 +3,7 @@ import { CalculationPhase, ModifierType, PassiveBuffType, TriggerType, type Pass
 export const PassiveEffectDict: Record<string, PassiveSkillEffect> = {
     
     "REVENGE_FURRY": {
-        modifiers: [{buffType: PassiveBuffType.DEFENSE, phase: CalculationPhase.START_OF_TURN, baseAmount: 40, modifierType: ModifierType.PERCENT, isPercent: true, stackAmount: 50, maxStackLimit: 500}],
+        modifiers: [{buffType: PassiveBuffType.ATTACK, phase: CalculationPhase.START_OF_TURN, baseAmount: 20, modifierType: ModifierType.PERCENT, isPercent: false, stackAmount: 50, maxStackLimit: 250}],
         condition: {triggerType: TriggerType.ON_ATTACK_RECEIVED}
     },
     "REGEN_BOOST": {

@@ -10,8 +10,8 @@ import { getPlayer } from "../../store/GameStore";
 import { useState } from "react";
 import type { BattleState } from "../batttle/BattleState";
 import type { Move } from "../entities/Move";
-import { TriggerType } from "../enums/TriggerType";
 import { attrEffect } from "framer-motion";
+import type { BattleMonster } from "../batttle/BattleMonster";
 
 const battleState: BattleState = {
     turn: 0,
@@ -27,16 +27,18 @@ const battleState: BattleState = {
 let turnPhase: TurnPhase;
 const player = getPlayer();
 
-export function processTurn(attacker:Monster, defender:Monster, move:Move){
+export function processTurn(attacker: BattleMonster, defender: BattleMonster){
     
     switch(turnPhase){
-        case TurnPhase.PLAYERTURN:
-            BattleSystem.executeMove(attacker, defender, attacker.move)
-            turnPhase = TurnPhase.ENEMYTURN;
+        case TurnPhase.TURN_START:
             break;
-        case TurnPhase.ENEMYTURN:
-            BattleSystem.executeMove(defender, attacker, defender.move)
-            TurnPhase.PLAYERTURN;
+        case TurnPhase.PLAYER_ATTACK:
             break;
-    }
+        case TurnPhase.ENEMY_ATTACK:
+            break;
+        case TurnPhase.TURN_END:
+            break;
+        case TurnPhase.TURN_RESET:
+            break;
+        }
 }

@@ -169,7 +169,7 @@ export default function NewGame() {
 
                     <div className="flex flex-col space-y-2">
                         <button
-                            className="text-black bg-slate-700 rounded-2xl p-2 m-2"
+                            className="text-white font-bold bg-slate-700 rounded-2xl p-2 m-2"
                             onClick={() => {
                                 chooseStarter("0001")
                                 navigate("/main-menu")
@@ -180,7 +180,7 @@ export default function NewGame() {
                             <p>Rimeape</p>
                         </button>
                         <button
-                            className="text-black bg-slate-700 rounded-2xl p-2 m-2"
+                            className="text-white font-bold bg-slate-700 rounded-2xl p-2 m-2"
                             onClick={() => {
                                 chooseStarter("0002")
                                 navigate("/main-menu")
@@ -190,7 +190,7 @@ export default function NewGame() {
                             <p>Bambeast</p>
                         </button>
                         <button
-                            className="text-black bg-slate-700 rounded-2xl p-2 m-2"
+                            className="text-white font-bold bg-slate-700 rounded-2xl p-2 m-2"
                             onClick={() => {
                                 chooseStarter("0003")
                                 navigate("/main-menu")

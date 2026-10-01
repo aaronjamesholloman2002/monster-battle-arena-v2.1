@@ -12,8 +12,11 @@ export class PassiveSkillManager{
         switch(mod.buffType){
             case PassiveBuffType.ATTACK:
                 if (mod.isPercent){
-                    battleMonster.attack + (mod.baseAmount / 100)
-                    battleMonster.attack += mod.baseAmount;
+                    let attackbuff = (mod.baseAmount / 100)
+                    battleMonster.attack *= attackbuff
+                }else{
+                    let attackbuff = mod.baseAmount
+                    battleMonster.attack += attackbuff
                 }
                 break;
                 case PassiveBuffType.DEFENSE:

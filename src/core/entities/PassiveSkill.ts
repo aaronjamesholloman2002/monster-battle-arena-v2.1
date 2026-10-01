@@ -35,6 +35,11 @@ export enum CalculationPhase {
   AFTER_FINAL_BLOW = "when delivering the final blow",
 }
 
+/*
+    Specifies which kind of trigger or state will cause
+    the passive skill to offset (passive trigger indicator)
+*/
+
 export enum TriggerType {
   ON_TURN_START = "at the start of turn",
   ON_BATTLE_START = "at the start of battle",
@@ -43,10 +48,14 @@ export enum TriggerType {
   ON_ATTACK_RECEIVED = "after receiving an attack"
 }
 
+/**
+ * 
+ */
+
 export interface Condition {
-  triggerType?: TriggerType;      // e.g., "START_OF_TURN", "BEFORE_ATTACK", "AFTER_RECEIVING_HIT"
+  triggerType?: TriggerType; // e.g., "START_OF_TURN", "BEFORE_ATTACK", "AFTER_RECEIVING_HIT"
   requirements?: {
-    hpBelow?: number;       // e.g., "when HP is 50% or less"
+    hpBelow?: number; // e.g., "when HP is 50% or less"
     turnCount?: number;
          // e.g., "from the 3rd turn from start of battle"
   };
@@ -56,8 +65,9 @@ export interface BuffModifier {
   buffType: PassiveBuffType;
   modifierType?: ModifierType;
   phase?: CalculationPhase;
+  condition?: Condition;
   action?: Action;
-  baseAmount?: number;       // e.g., 150 for +150%
+  baseAmount?: number; // e.g., 150 for +150%
   isPercent: boolean;
   
   // Stacking Mechanics (e.g., "+10% per hit, up to 50%")
@@ -67,7 +77,7 @@ export interface BuffModifier {
 }
 
 export interface PassiveSkillEffect{
-  condition?: Condition;
+  condition: Condition;
   modifiers?: BuffModifier[];
 }
 
@@ -100,11 +110,12 @@ export class PassiveSkill {
 
     // Buff target
     parts.push(mod.buffType);
+    // parts.push(mod.buffType.find(buff => buff === PassiveBuffType.ATTACK));
 
     // Operator and amount
     if (mod.isPercent) {
       parts.push(`+${mod.baseAmount}%`);
-    } else {
+    } else if(!mod.isPercent) {
       parts.push(`+${mod.baseAmount}`);
     }
 
@@ -119,15 +130,22 @@ export class PassiveSkill {
       mod.modifierType ?? ModifierType.ADD;
       if(mod.isPercent == true){
         stackText = `+${mod.stackAmount}% per attack recieved`;
+        if (mod.maxStackLimit) {
+          stackText += ` (up to ${mod.maxStackLimit}%)`;
+        }
+        if (mod.currentStacks !== undefined) {
+          stackText += ` | current: ${mod.currentStacks}`;
+        }
       }else{
         stackText = `+${mod.stackAmount} per attack reieved`;
+        if (mod.maxStackLimit) {
+          stackText += ` (up to ${mod.maxStackLimit})`;
+        }
+        if (mod.currentStacks !== undefined) {
+          stackText += ` | current: ${mod.currentStacks}`;
+        }
       }
-      if (mod.maxStackLimit) {
-        stackText += ` ( up to ${mod.maxStackLimit} )`;
-      }
-      if (mod.currentStacks !== undefined) {
-        stackText += ` | current: ${mod.currentStacks}`;
-      }
+
       parts.push(stackText);
     }
 
@@ -161,6 +179,9 @@ export class PassiveSkill {
     const segments: string[] = [];
 
     // 1. Condition/Trigger prefix
+    // for(let effect in effect){
+
+    // }
     const conditionText = this.formatCondition(effect.condition);
     if (conditionText) {
       segments.push(`${conditionText}`);
