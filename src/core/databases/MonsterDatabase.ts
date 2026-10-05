@@ -1,9 +1,10 @@
 import type { Monster, MonsterTemplate } from "../entities/Monster";
+import { PassiveSkill } from "../entities/PassiveSkill";
 import { Creature } from "../enums/Creature";
 import { Rarity } from "../enums/Rarity";
 import { Type } from "../enums/Type";
 import { beakDance, bubbleslap, bugbite, firepinch, flamethrower, frostpunch, icybreath, thunderbolt, vineslap } from "./MovesDatabase";
-import { regenBoost, revengeFury } from "./PassiveSkillDatabase";
+import { PassiveSkillDatabase } from "./PassiveSkillDatabase";
 
 export const MonsterDatabase: Record<string, MonsterTemplate> = {
     
@@ -22,7 +23,7 @@ export const MonsterDatabase: Record<string, MonsterTemplate> = {
         accuracy: 0,
         evasion: 0,
         move: frostpunch,
-        passives: [revengeFury],
+        passives: [PassiveSkillDatabase.REVENGE_FURRY],
     },
     "0002": {
         speciesID: "0002",
@@ -39,7 +40,7 @@ export const MonsterDatabase: Record<string, MonsterTemplate> = {
         accuracy: 0,
         evasion: 0,
         move: vineslap,
-        passives: [regenBoost]
+        passives: [PassiveSkillDatabase.REGEN_BOOST]
     },
     "0003": {
         speciesID: "0003",
@@ -56,7 +57,7 @@ export const MonsterDatabase: Record<string, MonsterTemplate> = {
         accuracy: 0,
         evasion: 0,
         move: beakDance,
-        passives: [revengeFury, regenBoost]
+        passives: [PassiveSkillDatabase.REVENGE_FURRY, PassiveSkillDatabase.REGEN_BOOST]
     },
     "0004": {
         speciesID: "0004",

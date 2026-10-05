@@ -68,11 +68,11 @@ export interface BuffModifier {
   condition?: Condition;
   action?: Action;
   baseAmount?: number; // e.g., 150 for +150%
-  isPercent: boolean;
+  isPercent?: boolean;
   
   // Stacking Mechanics (e.g., "+10% per hit, up to 50%")
   stackAmount?: number;
-  maxStackLimit?: number;   
+  maxStackLimit?: number; 
   currentStacks?: number;
 }
 
@@ -108,16 +108,26 @@ export class PassiveSkill {
   public formatModifier(mod: BuffModifier): string {
     const parts: string[] = [];
 
+    if (mod.buffType) {
+      parts.push(mod.buffType);
+    }
+
     // Buff target
-    parts.push(mod.buffType);
+    if(mod.baseAmount !== undefined){
+      if (mod.isPercent) {
+        parts.push(`+${mod.baseAmount}%`);
+      } else if(!mod.isPercent) {
+        parts.push(`+${mod.baseAmount}`);
+      }else{
+        return;
+      }
+    } else if(mod.buffType == undefined || mod.baseAmount == undefined){
+      return "";
+    } 
     // parts.push(mod.buffType.find(buff => buff === PassiveBuffType.ATTACK));
 
     // Operator and amount
-    if (mod.isPercent) {
-      parts.push(`+${mod.baseAmount}%`);
-    } else if(!mod.isPercent) {
-      parts.push(`+${mod.baseAmount}`);
-    }
+    
 
     // Phase (e.g., "at the start of turn")
     if (mod.phase) {
