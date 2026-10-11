@@ -1,69 +1,82 @@
-import { number, type PassiveEffect } from "framer-motion";
 import type { BattleMonster } from "../batttle/BattleMonster";
-import { PassiveSkill, type BuffModifier, type PassiveSkillEffect, ModifierType, PassiveBuffType } from "../entities/PassiveSkill";
+import {
+  PassiveSkill,
+  type BuffModifier,
+  PassiveBuffType,
+} from "../entities/PassiveSkill";
 
-export class PassiveSkillManager{
+export interface ActiveBuff {
+  skill: PassiveSkill;
+  durationInTurns: number; // e.g., -1 for permanent
+  isExpired?: boolean;
+}
 
-    public processPassive(battleMonster: BattleMonster, mod: BuffModifier){
-        
-        mod.buffType ?? ModifierType.ADD;
-        
+export class PassiveSkillManager {
+  
+  private activePassives: ActiveBuff[] = [];
 
-        switch(mod.buffType){
-            case PassiveBuffType.ATTACK:
-                if (mod.isPercent){
-                    let attackbuff = (mod.baseAmount / 100)
-                    battleMonster.attack *= attackbuff
-                }else{
-                    let attackbuff = mod.baseAmount
-                    battleMonster.attack += attackbuff
-                }
-                break;
-                case PassiveBuffType.DEFENSE:
-                    if (mod.isPercent){
-                        battleMonster.attack += mod.baseAmount;
-                    }
-                    break;
-                case PassiveBuffType.SPEED:
-                    if (mod.isPercent){
-                        battleMonster.attack += mod.baseAmount;
-                    }
-                    break;
-                case PassiveBuffType.ACCURACY:
-                    if (mod.isPercent){
-                        battleMonster.attack += mod.baseAmount;
-                    }
-                    break;
-                case PassiveBuffType.EVASION:
-                    if (mod.isPercent){
-                        battleMonster.attack += mod.baseAmount;
-                    }
-                    break;
-        }
+  public processPassive(battleMonster: BattleMonster, mod: BuffModifier): void {
+    const isMultiplier = Boolean(mod.isPercent);
+    const multiplier = 1 + mod.baseAmount / 100;
+    const flatAmount = mod.baseAmount;
 
-        
+    switch (mod.buffType) {
+      case PassiveBuffType.ATTACK:
+        battleMonster.attack = isMultiplier
+          ? Math.round(battleMonster.attack * multiplier)
+          : battleMonster.attack + flatAmount;
+        break;
+
+      case PassiveBuffType.DEFENSE:
+        battleMonster.defense = isMultiplier
+          ? Math.round(battleMonster.defense * multiplier)
+          : battleMonster.defense + flatAmount;
+        break;
+
+      case PassiveBuffType.SPEED:
+        battleMonster.speed = isMultiplier
+          ? Math.round(battleMonster.speed * multiplier)
+          : battleMonster.speed + flatAmount;
+        break;
+
+      case PassiveBuffType.ACCURACY:
+        battleMonster.accuracy = isMultiplier
+          ? Math.round(battleMonster.accuracy * multiplier)
+          : battleMonster.accuracy + flatAmount;
+        break;
+
+      case PassiveBuffType.EVASION:
+        battleMonster.evasion = isMultiplier
+          ? Math.round(battleMonster.evasion * multiplier)
+          : battleMonster.evasion + flatAmount;
+        break;
     }
+  }
 
-    public processTurn()
-    {
-        // for (let i: number = _passives.Count - 1; i >= 0; i--)
-        // {
-        //     var skill = _passives[i];
+  public processTurn(): void {
+    // Iterate backwards so splicing doesn't skip indices
+    for (let i = this.activePassives.length - 1; i >= 0; i--) {
+      const active = this.activePassives[i];
 
-        //     // Execute effect if defined
-        //     skill.Effect?.Invoke(skill.DurationInTurns);
+      // Decrement duration if temporary (> 0). -1 indicates permanent.
+      if (active.durationInTurns > 0) {
+        active.durationInTurns--;
+      }
 
-        //     // Decrement duration if not permanent (-1)
-        //     if (skill.DurationInTurns > 0)
-        //     {
-        //         skill.DurationInTurns--;
-        //     }
-
-        //     // Remove if expired
-        //     if (skill.IsExpired)
-        //     {
-        //         _passives.RemoveAt(i);
-        //     }
-        // }
+      // Check for expiration
+      if (active.durationInTurns === 0 || active.isExpired) {
+        this.activePassives.splice(i, 1);
+      }
     }
+  }
+
+  public addActivePassive(
+    skill: PassiveSkill,
+    durationInTurns: number
+  ): void {
+    this.activePassives.push({
+        skill,
+        durationInTurns
+    });
+  }
 }

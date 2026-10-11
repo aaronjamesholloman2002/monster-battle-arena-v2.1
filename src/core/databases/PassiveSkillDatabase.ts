@@ -5,14 +5,14 @@ export const PassiveSkillDatabase: Record<string, PassiveSkill> = {
    REVENGE_FURRY: new PassiveSkill("Revenge Furry", [
     {
       condition: { 
-        triggerType: TriggerType.ON_ATTACK_PERFORMED,
+        triggerType: TriggerType.ON_ATTACK_RECEIVED,
         requirements: { turnCount: 4 }
       },
       modifiers: [
         { 
-          buffType: PassiveBuffType.ATTACK, 
-          phase: CalculationPhase.AFTER_FINAL_BLOW,
-          isPercent: true
+          buffType: PassiveBuffType.ATTACK,
+          isPercent: true,
+          baseAmount: 50,
         }
       ]
     }
@@ -21,15 +21,14 @@ export const PassiveSkillDatabase: Record<string, PassiveSkill> = {
   REGEN_BOOST: new PassiveSkill("Regen Boost", [
     {
       condition: { 
-        triggerType: TriggerType.ON_DAMAGE_TAKEN,
-        requirements: { hpBelow: 50, turnCount: 3 }
+        requirements: { hpBelow: 50 }
       },
       modifiers: [
         { 
-          buffType: PassiveBuffType.DEFENSE, 
-          phase: CalculationPhase.START_OF_TURN, 
-          baseAmount: 80,
-          stackAmount: 10
+          buffType: PassiveBuffType.HEALTH, 
+          phase: CalculationPhase.START_OF_BATTLE, 
+          baseAmount: 20,
+          isPercent: true,
         }
       ]
     }

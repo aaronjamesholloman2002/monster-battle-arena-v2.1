@@ -1,9 +1,11 @@
 import type { BattleMonster } from "../batttle/BattleMonster";
 import type { Move } from "./Move";
 import { BattleSystem } from "../../systems/BatlteSystem";
+import { PassiveSkillManager } from "../managers/PassiveSkillManager";
 
 export class BattleEngine {
 
+    passiveManager: PassiveSkillManager = new PassiveSkillManager();
     private playerMon: BattleMonster;
     private opponent: BattleMonster;
     private turn: number;
@@ -46,6 +48,10 @@ export class BattleEngine {
         const playerFirst =
             this.playerMon.speed >= this.opponent.speed;
 
+        // this.passiveManager.processPassive(
+        //     this.playerMon, 
+        //     this.playerMon.passives.map(passive => passive.getEffect()))
+
         const first = playerFirst
             ? this.playerMon
             : this.opponent;
@@ -73,7 +79,6 @@ export class BattleEngine {
         if (this.isBattleOver()) {
             return true;
         }
-
 
         // Second monster attacks
         this.executeAction(

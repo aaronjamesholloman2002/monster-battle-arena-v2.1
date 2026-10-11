@@ -30,9 +30,8 @@ export enum CalculationPhase {
   START_OF_BATTLE = "at the start of battle",   // e.g., "ATK & DEF +150% at start of turn"
   END_OF_TURN = "at the end of turn",
   END_OF_BATTLE = "at the end of battle",
-  END_OF_EVERY_TURN = "at the end of each turn",
+  END_OF_EVERY_TURN = "at the end of every turn",
   DURING_ATTACKING_TURN = "during the creature's attacking turn",
-  AFTER_FINAL_BLOW = "when delivering the final blow",
 }
 
 /*
@@ -43,9 +42,9 @@ export enum CalculationPhase {
 export enum TriggerType {
   ON_TURN_START = "at the start of turn",
   ON_BATTLE_START = "at the start of battle",
-  ON_DAMAGE_TAKEN = "On Damage Taken",
   ON_ATTACK_PERFORMED = "after performing an attack",
-  ON_ATTACK_RECEIVED = "after receiving an attack"
+  ON_ATTACK_RECEIVED = "after receiving an attack",
+  AFTER_FINAL_BLOW = "when delivering the final blow",
 }
 
 /**
@@ -98,18 +97,18 @@ export class PassiveSkill {
       .map(effect => this.formatEffect(effect))
       .filter(text => text.length > 0);
 
-    if (formattedEffects.length === 0) {
-      return this.name;
-    }
-
-    return `${this.name}: ${formattedEffects.join("; ")}`;
+      const content = formattedEffects.length === 0
+      ? this.name
+      : `${this.name}: ${formattedEffects.join("; ")}`;
+  
+    return `${content}\n\n\n`;
   }
   
   public formatModifier(mod: BuffModifier): string {
     const parts: string[] = [];
 
     if (mod.buffType) {
-      parts.push(mod.buffType);
+      parts.push(" " + mod.buffType);
     }
 
     // Buff target
@@ -129,7 +128,11 @@ export class PassiveSkill {
     // Operator and amount
     
 
-    // Phase (e.g., "at the start of turn")
+    /**
+     * Phase (e.g., "at the start of turn") gets pushed to the stack 
+     * after all other parts of the passive gets pushed (FIFO, and NOT LIFO)
+     **/
+
     if (mod.phase) {
       parts.push(mod.phase);
     }
@@ -147,7 +150,7 @@ export class PassiveSkill {
           stackText += ` | current: ${mod.currentStacks}`;
         }
       }else{
-        stackText = `+${mod.stackAmount} per attack reieved`;
+        stackText = `(+${mod.stackAmount} per attack reieved)`;
         if (mod.maxStackLimit) {
           stackText += ` (up to ${mod.maxStackLimit})`;
         }
@@ -188,21 +191,17 @@ export class PassiveSkill {
   public formatEffect(effect: PassiveSkillEffect): string {
     const segments: string[] = [];
 
-    // 1. Condition/Trigger prefix
-    // for(let effect in effect){
-
-    // }
-    const conditionText = this.formatCondition(effect.condition);
-    if (conditionText) {
-      segments.push(`${conditionText}`);
-    }
-
-    // 2. Modifiers
     if (effect.modifiers && effect.modifiers.length > 0) {
       const modStrings = effect.modifiers.map(mod => this.formatModifier(mod));
       segments.push(modStrings.join(", "));
     }
 
-    return segments.join(": ");
+    const conditionText = this.formatCondition(effect.condition);
+    if (conditionText) {
+      segments.push(`${conditionText}`);
+    }
+
+    return segments.join(" ");
+    // return segments.join(": ");
   }
 }

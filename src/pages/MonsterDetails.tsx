@@ -80,9 +80,11 @@ export default function MonsterDetails() {
                     Passives
                 </h3>
 
-                <div>{selectedMonster.passives.map(passive => (
-                    <p>{passive.toString()}</p>
-                ))}</div>
+                <div className="mt-2 space-y-3">
+                    {selectedMonster.passives.map((passive, index) => (
+                        <p key={index}>{passive.toString()}</p>
+                    ))}
+                </div>
 
                 {/* {selectedMonster.passives.map(passive => (
 

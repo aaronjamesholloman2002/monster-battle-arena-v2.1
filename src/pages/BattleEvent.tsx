@@ -10,6 +10,7 @@ import { createPhaserGame } from "../phaser/game/PhaserGame";
 import { BattleEngine } from "../core/entities/BattleEngine";
 import { startGame } from "../core/batttle/GameGrid";
 import "../styles/global.css"
+import { PassiveSkillManager } from "../core/managers/PassiveSkillManager";
 
 const currentStage = DemoStages[4];
 // const enemyMon = currentStage.enemies[0];
@@ -26,6 +27,7 @@ export default function BattleEvent() {
     const [selectedTarget, setSelectedTarget] = useState<BattleMonster | null>(null);
     const phaserContainerRef = useRef<HTMLDivElement | null>(null);
     const battleEngineRef = useRef<BattleEngine | null>(null);
+    const passiveSkillManager = useRef<PassiveSkillManager | null>(null);
     const [battleActions, setBattleActions] = useState<BattleAction[]>([]);
     // const battle = new BattleEngine(battleMon, enemyMon);
 
@@ -110,6 +112,8 @@ export default function BattleEvent() {
         );
 
         battleEngineRef.current = engine;
+
+        const passiveManager = new PassiveSkillManager();
 
         // Enemy chooses its move
         if (!currentTarget.move) {

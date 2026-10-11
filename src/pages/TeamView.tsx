@@ -12,7 +12,7 @@ import { motion } from "framer-motion";
 //     onRemove?: () => void;
 // }
 
-export function TeamView({ }) {
+export function TeamView() {
 
     const [player, setCurrentPlayer] = useState(() => getPlayer());
     const navigate = useNavigate();
@@ -98,7 +98,7 @@ export function TeamView({ }) {
                 Back
             </button>
 
-            <div className="flex flex-row items-center justify-center gap-4 p-2 m-2 overflow-x-auto flex-shrink:0  w-full text-nowrap">
+            <div className="flex-row items-center justify-center grid grid-cols-5 gap-4 p-2 m-2 overflow-x-auto shrink-0 w-full text-nowrap">
                 {player.monsterBox.map(monster => (
                     <motion.div
                         key={monster.id}
